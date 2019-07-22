@@ -1,0 +1,10 @@
+D:\Study\Source Code\C#\Student_Management\Student_Management\bin\Debug\Student_Management.exe.config
+D:\Study\Source Code\C#\Student_Management\Student_Management\bin\Debug\Student_Management.exe
+D:\Study\Source Code\C#\Student_Management\Student_Management\bin\Debug\Student_Management.pdb
+D:\Study\Source Code\C#\Student_Management\Student_Management\obj\Debug\Student_Management.csprojResolveAssemblyReference.cache
+D:\Study\Source Code\C#\Student_Management\Student_Management\obj\Debug\Student_Management.LoginForm.resources
+D:\Study\Source Code\C#\Student_Management\Student_Management\obj\Debug\Student_Management.Properties.Resources.resources
+D:\Study\Source Code\C#\Student_Management\Student_Management\obj\Debug\Student_Management.csproj.GenerateResource.Cache
+D:\Study\Source Code\C#\Student_Management\Student_Management\obj\Debug\Student_Management.csproj.CoreCompileInputs.cache
+D:\Study\Source Code\C#\Student_Management\Student_Management\obj\Debug\Student_Management.exe
+D:\Study\Source Code\C#\Student_Management\Student_Management\obj\Debug\Student_Management.pdb
