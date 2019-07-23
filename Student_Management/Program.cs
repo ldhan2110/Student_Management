@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Student_Management.BL;
+using Student_Management.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +18,10 @@ namespace Student_Management
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new LoginForm());
+
+            User user = new User();
+            LoginForm login = new LoginForm(user);
+            Application.Run(login);
         }
     }
 }
