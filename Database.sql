@@ -1,8 +1,18 @@
-CREATE DATABASE University
+﻿CREATE DATABASE University
 GO
 USE University
 
 ------------------------------------------------------------------------
+
+CREATE TABLE Students
+(
+	STT char(1),
+	MSSV VARCHAR(8) PRIMARY KEY,
+	Họ tên VARCHAR(50) NOT NULL,
+	Gender CHAR(3) CHECK (Gender = 'Nam' or Gender = 'Nữ'),
+	CMND VARCHAR(10), 
+	Class VARCHAR(10) NOT NULL
+)
 
 CREATE TABLE Users
 (
