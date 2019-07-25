@@ -12,10 +12,10 @@ namespace Student_Management.BL
         public string Username;
         private string Password;
         public string type;
+        private DataAccess data = new DataAccess();
 
         public bool Check_User(string username, string password)
         {
-            DataAccess data = new DataAccess();
             return data.Check_User_Password(username, password,out this.type,out Password,out  this.Username);
         }
 
@@ -41,6 +41,24 @@ namespace Student_Management.BL
             Username = null;
             Password = null;
             type = null;
+        }
+
+
+
+
+        public List<string> Get_Class()
+        {
+            return data.Get_Class();
+        }
+
+        public void Add_Student(string MSSV, string Name, string Gender, string CMND, string Class)
+        {
+            data.Add_Student(MSSV, Name, Gender, CMND, Class);
+        }
+
+        public List<List<string>>Get_Student_of_a_class(string Class)
+        {
+            return data.Get_Student_of_a_class(Class);
         }
     }
 }

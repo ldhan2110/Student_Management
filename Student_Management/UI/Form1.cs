@@ -30,9 +30,14 @@ namespace Student_Management
                 if (user.Check_Type('S'))
                 {
                     Student student_form = new Student(user);
-                    student_form.ShowDialog();   
+                    student_form.Show();
                 }
-                
+                if (user.Check_Type('G'))
+                {
+                    GiaoVu gv_form = new GiaoVu(user);
+                    gv_form.Show();
+                }
+                this.Hide();
             }
             else
             {

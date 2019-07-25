@@ -14,10 +14,15 @@ namespace Student_Management.DAL
     class DataAccess
     {
         private OleDbConnection cnn = new OleDbConnection();
+        private DataSet dsHS = new DataSet();
 
         public DataAccess()
         {
             cnn.ConnectionString = "Provider=SQLNCLI11;Server=DESKTOP-NGVBILI\\SQLEXPRESS;Database=University;Trusted_Connection=yes";
+            cnn.Open();
+            OleDbDataAdapter da = new OleDbDataAdapter("SELECT * FROM Students", cnn);
+            da.Fill(dsHS, "HocSinh");
+            cnn.Close();
         }
 
         public bool Check_User_Password(string username, string password, out string type, out string Password, out string Username)
@@ -60,6 +65,21 @@ namespace Student_Management.DAL
             cmd.ExecuteNonQuery();
             cnn.Close();
             return true;
+        }
+
+
+
+        public List<string> Get_Class()
+        {
+            List<string> result = new List<string>();
+           
+            for (int i = 0;i < dsHS.Tables["HocSinh"].Rows.Count;i++)
+            {
+                DataRow current = dsHS.Tables["HocSinh"].Rows[i];
+                if (!result.Contains(current[5]))
+                    result.Add(current[5].ToString());
+            }
+            return result;
         }
 
         public void Import_CSV_into_System(string filename,string table)
@@ -112,7 +132,38 @@ namespace Student_Management.DAL
             }
         }
 
-        
+        public void Add_Student(string MSSV, string Name, string Gender, string CMND, string Class)
+        {
+            cnn.Open();
+            OleDbDataAdapter da = new OleDbDataAdapter("SELECT * FROM Students", cnn);
+            DataRow newStudent;
+            newStudent = dsHS.Tables["HocSinh"].NewRow();
+            newStudent[0] = MSSV;
+            newStudent[1] = Name;
+            newStudent[2] = Gender;
+            newStudent[3] = CMND;
+            newStudent[4] = Class;
+            OleDbCommandBuilder build = new OleDbCommandBuilder(da);
+            da.Update(dsHS, "HocSinh");
+        }
+
+        public List<List<string>>Get_Student_of_a_class(string Class)
+        {
+            List<List<string>> student = new List<List<string>>();
+            for (int i = 0; i < dsHS.Tables["HocSinh"].Rows.Count;i++)
+            {
+                List<string> temp0 = new List<string>();
+                DataRow temp = dsHS.Tables["HocSinh"].Rows[i];
+                temp0.Add(temp[0].ToString());
+                temp0.Add(temp[1].ToString());
+                temp0.Add(temp[2].ToString());
+                temp0.Add(temp[3].ToString());
+                temp0.Add(temp[4].ToString());
+                temp0.Add(temp[5].ToString());
+                student.Add(temp0);
+            }
+            return student;
+        }
     }
 }
 

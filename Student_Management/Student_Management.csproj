@@ -55,6 +55,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UI\GiaoVu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\GiaoVu.Designer.cs">
+      <DependentUpon>GiaoVu.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Password.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,6 +86,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UI\GiaoVu.resx">
+      <DependentUpon>GiaoVu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Password.resx">
       <DependentUpon>Password.cs</DependentUpon>
     </EmbeddedResource>
