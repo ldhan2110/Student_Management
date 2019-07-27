@@ -14,11 +14,12 @@ namespace Student_Management.UI
     public partial class GiaoVu : Form
     {
         private User user;
+
         public GiaoVu(User u)
         {
             user = u;
             InitializeComponent();
-            //u.Impor_CSV_DB("Student.csv", "Students");
+           
             foreach (string s in user.Get_Class())
                 cbClass.Items.Add(s);
         }
@@ -32,9 +33,10 @@ namespace Student_Management.UI
 
         private void cbClass_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+            listView.Items.Clear();
+
             List<List<string>> list_student = user.Get_Student_of_a_class(cbClass.SelectedItem.ToString());
-            
+
             foreach (List<string> s in list_student)
             {
                 ListViewItem item = new ListViewItem();
@@ -45,7 +47,37 @@ namespace Student_Management.UI
                 item.SubItems.Add(s[4]);
                 item.SubItems.Add(s[5]);
                 listView.Items.Add(item);
-            }       
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            user.Impor_CSV_DB(tbfile.Text, "Students");
+            MessageBox.Show("Import Successfully !!");
+        }
+
+        private void tbfile_MouseClick(object sender, MouseEventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "CSV|*.csv";
+            ofd.ShowDialog();
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                tbfile.Text = ofd.FileName;
+            }
+        }
+
+        private void addToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (radioButton1.Checked == true)
+            {
+                Add_Student add_form = new Add_Student(user);
+                add_form.ShowDialog();
+            }
+
+            cbClass.Items.Clear();
+            foreach (string s in user.Get_Class())
+                cbClass.Items.Add(s);
         }
     }
 }

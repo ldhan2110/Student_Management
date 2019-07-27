@@ -47,6 +47,12 @@
   <ItemGroup>
     <Compile Include="BL\User.cs" />
     <Compile Include="DAL\DataAccess.cs" />
+    <Compile Include="UI\Add_Student.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\Add_Student.Designer.cs">
+      <DependentUpon>Add_Student.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -73,6 +79,9 @@
     <Compile Include="UI\Student.Designer.cs">
       <DependentUpon>Student.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UI\Add_Student.resx">
+      <DependentUpon>Add_Student.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

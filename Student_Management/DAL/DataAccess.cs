@@ -68,6 +68,12 @@ namespace Student_Management.DAL
         }
 
 
+        private void Update_dsHS()
+        {
+            cnn.Open();
+            OleDbDataAdapter da = new OleDbDataAdapter("SELECT * FROM Students",cnn);
+            da.Fill(dsHS, "HocSinh");
+        }
 
         public List<string> Get_Class()
         {
@@ -119,7 +125,6 @@ namespace Student_Management.DAL
                 }
             }
 
-
             using (SqlConnection dbConnection = new SqlConnection("Data Source=DESKTOP-NGVBILI\\SQLEXPRESS;Initial Catalog=University;Integrated Security=SSPI;"))
             {
                 dbConnection.Open();
@@ -132,21 +137,26 @@ namespace Student_Management.DAL
                 }
                 dbConnection.Close();
             }
+
         }
 
         public void Add_Student(string MSSV, string Name, string Gender, string CMND, string Class)
         {
+
             cnn.Open();
-            OleDbDataAdapter da = new OleDbDataAdapter("SELECT * FROM Students", cnn);
-            DataRow newStudent;
-            newStudent = dsHS.Tables["HocSinh"].NewRow();
-            newStudent[0] = MSSV;
-            newStudent[1] = Name;
-            newStudent[2] = Gender;
-            newStudent[3] = CMND;
-            newStudent[4] = Class;
-            OleDbCommandBuilder build = new OleDbCommandBuilder(da);
-            da.Update(dsHS, "HocSinh");
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = cnn;
+            cmd.CommandText = "INSERT INTO Students VALUES (?,?,?,?,?)";
+
+            cmd.Parameters.Add("@MSSV", OleDbType.VarWChar).Value = MSSV;
+            cmd.Parameters.Add("@Name", OleDbType.VarWChar).Value = Name;
+            cmd.Parameters.Add("@Gender", OleDbType.VarWChar).Value = Gender;
+            cmd.Parameters.Add("@CMND", OleDbType.VarWChar).Value = CMND;
+            cmd.Parameters.Add("@Class", OleDbType.VarWChar).Value = Class;
+
+            cmd.ExecuteNonQuery();
+            cnn.Close();
+            Update_dsHS();
         }
 
         public List<List<string>> Get_Student_of_a_class(string Class)
@@ -154,15 +164,19 @@ namespace Student_Management.DAL
             List<List<string>> student = new List<List<string>>();
             for (int i = 0; i < dsHS.Tables["HocSinh"].Rows.Count; i++)
             {
+                
                 List<string> temp0 = new List<string>();
                 DataRow temp = dsHS.Tables["HocSinh"].Rows[i];
-                temp0.Add(temp[0].ToString());
-                temp0.Add(temp[1].ToString());
-                temp0.Add(temp[2].ToString());
-                temp0.Add(temp[3].ToString());
-                temp0.Add(temp[4].ToString());
-                temp0.Add(temp[5].ToString());
-                student.Add(temp0);
+                if (temp[5].ToString() == Class)
+                {
+                    temp0.Add(temp[0].ToString());
+                    temp0.Add(temp[1].ToString());
+                    temp0.Add(temp[2].ToString());
+                    temp0.Add(temp[3].ToString());
+                    temp0.Add(temp[4].ToString());
+                    temp0.Add(temp[5].ToString());
+                    student.Add(temp0);
+                }
             }
             return student;
         }
