@@ -72,8 +72,8 @@ namespace Student_Management.DAL
         public List<string> Get_Class()
         {
             List<string> result = new List<string>();
-           
-            for (int i = 0;i < dsHS.Tables["HocSinh"].Rows.Count;i++)
+
+            for (int i = 0; i < dsHS.Tables["HocSinh"].Rows.Count; i++)
             {
                 DataRow current = dsHS.Tables["HocSinh"].Rows[i];
                 if (!result.Contains(current[5]))
@@ -82,7 +82,7 @@ namespace Student_Management.DAL
             return result;
         }
 
-        public void Import_CSV_into_System(string filename,string table)
+        public void Import_CSV_into_System(string filename, string table)
         {
             DataTable importedData = new DataTable();
             string header = null;
@@ -96,13 +96,15 @@ namespace Student_Management.DAL
                 string[] headerColumns = header.Split(',');
                 foreach (string headerColumn in headerColumns)
                 {
+                    if (headerColumn == "STT") continue;
                     importedData.Columns.Add(headerColumn);
                 }
                 importedData.Columns.Add("Class");
 
                 while (!sr.EndOfStream)
                 {
-                    string line = sr.ReadLine()+','+Class;
+                    sr.Read(new char[2], 0, 2);
+                    string line = sr.ReadLine() + ',' + Class;
                     if (string.IsNullOrEmpty(line)) continue;
                     string[] fields = line.Split(',');
                     DataRow importedRow = importedData.NewRow();
@@ -147,10 +149,10 @@ namespace Student_Management.DAL
             da.Update(dsHS, "HocSinh");
         }
 
-        public List<List<string>>Get_Student_of_a_class(string Class)
+        public List<List<string>> Get_Student_of_a_class(string Class)
         {
             List<List<string>> student = new List<List<string>>();
-            for (int i = 0; i < dsHS.Tables["HocSinh"].Rows.Count;i++)
+            for (int i = 0; i < dsHS.Tables["HocSinh"].Rows.Count; i++)
             {
                 List<string> temp0 = new List<string>();
                 DataRow temp = dsHS.Tables["HocSinh"].Rows[i];

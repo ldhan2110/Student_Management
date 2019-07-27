@@ -18,6 +18,7 @@ namespace Student_Management.UI
         {
             user = u;
             InitializeComponent();
+            //u.Impor_CSV_DB("Student.csv", "Students");
             foreach (string s in user.Get_Class())
                 cbClass.Items.Add(s);
         }
@@ -31,10 +32,12 @@ namespace Student_Management.UI
 
         private void cbClass_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ListViewItem item = new ListViewItem();
+            
             List<List<string>> list_student = user.Get_Student_of_a_class(cbClass.SelectedItem.ToString());
+            
             foreach (List<string> s in list_student)
             {
+                ListViewItem item = new ListViewItem();
                 item.Text = s[0];
                 item.SubItems.Add(s[1]);
                 item.SubItems.Add(s[2]);
