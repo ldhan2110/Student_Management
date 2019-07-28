@@ -14,6 +14,12 @@ namespace Student_Management.BL
         public string type;
         private DataAccess data = new DataAccess();
 
+        public User()
+        {
+            data.Update_dsHS("Students");
+            data.Update_dsHS("Courses");
+        }
+
         public bool Check_User(string username, string password)
         {
             return data.Check_User_Password(username, password,out this.type,out Password,out  this.Username);
@@ -62,6 +68,11 @@ namespace Student_Management.BL
         public List<List<string>>Get_Student_of_a_class(string Class)
         {
             return data.Get_Student_of_a_class(Class);
+        }
+
+        public List<List<string>>Get_Courses_of_a_class(string Class)
+        {
+            return data.Get_Courses_of_a_class(Class);
         }
     }
 }

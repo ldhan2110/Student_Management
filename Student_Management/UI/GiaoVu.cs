@@ -22,6 +22,8 @@ namespace Student_Management.UI
            
             foreach (string s in user.Get_Class())
                 cbClass.Items.Add(s);
+
+
         }
 
         private void changePasswordToolStripMenuItem_Click(object sender, EventArgs e)
@@ -33,26 +35,67 @@ namespace Student_Management.UI
 
         private void cbClass_SelectedIndexChanged(object sender, EventArgs e)
         {
-            listView.Items.Clear();
+            listView.Clear();
+            listView.GridLines = true;
+            listView.Columns.Add("STT", 38);
 
-            List<List<string>> list_student = user.Get_Student_of_a_class(cbClass.SelectedItem.ToString());
-
-            foreach (List<string> s in list_student)
+            if (radioButton1.Checked == true)
             {
-                ListViewItem item = new ListViewItem();
-                item.Text = s[0];
-                item.SubItems.Add(s[1]);
-                item.SubItems.Add(s[2]);
-                item.SubItems.Add(s[3]);
-                item.SubItems.Add(s[4]);
-                item.SubItems.Add(s[5]);
-                listView.Items.Add(item);
+                listView.Columns.Add("MSSV", 60);
+                listView.Columns.Add("Họ tên", 159);
+                listView.Columns.Add("Giới tính", 60);
+                listView.Columns.Add("CMND", 85);
+
+                List<List<string>> list_student = user.Get_Student_of_a_class(cbClass.SelectedItem.ToString());
+
+                foreach (List<string> s in list_student)
+                {
+                    ListViewItem item = new ListViewItem();
+                    item.Text = s[0];
+                    item.SubItems.Add(s[1]);
+                    item.SubItems.Add(s[2]);
+                    item.SubItems.Add(s[3]);
+                    item.SubItems.Add(s[4]);
+                    item.SubItems.Add(s[5]);
+                    listView.Items.Add(item);
+                }
+            }
+
+            if (radioButton2.Checked == true)
+            {   
+                listView.Columns.Add("Mã môn",60);
+                listView.Columns.Add("Tên môn",159);
+                listView.Columns.Add("Phòng học",100);
+
+                List<List<string>> list_student = user.Get_Courses_of_a_class(cbClass.SelectedItem.ToString());
+
+                foreach (List<string> s in list_student)
+                {
+                    ListViewItem item = new ListViewItem();
+                    item.Text = s[0];
+                    item.SubItems.Add(s[1]);
+                    item.SubItems.Add(s[2]);
+                    item.SubItems.Add(s[3]);
+                    item.SubItems.Add(s[4]);
+                    
+                    listView.Items.Add(item);
+                }
+
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            user.Impor_CSV_DB(tbfile.Text, "Students");
+            if (radioButton1.Checked == true)
+            {
+                user.Impor_CSV_DB(tbfile.Text, "Students");
+                
+            }
+            if (radioButton2.Checked == true)
+            {
+                user.Impor_CSV_DB(tbfile.Text, "Courses");
+                
+            }
             MessageBox.Show("Import Successfully !!");
         }
 
@@ -60,7 +103,7 @@ namespace Student_Management.UI
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "CSV|*.csv";
-            ofd.ShowDialog();
+           
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 tbfile.Text = ofd.FileName;

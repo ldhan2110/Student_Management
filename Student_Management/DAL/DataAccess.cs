@@ -68,12 +68,20 @@ namespace Student_Management.DAL
         }
 
 
-        private void Update_dsHS()
+
+
+
+        public void Update_dsHS(string table)
         {
             cnn.Open();
-            OleDbDataAdapter da = new OleDbDataAdapter("SELECT * FROM Students",cnn);
-            da.Fill(dsHS, "HocSinh");
+            string command = "SELECT * FROM "+ table; 
+            OleDbDataAdapter da = new OleDbDataAdapter(command, cnn);
+            da.Fill(dsHS, table);
+            cnn.Close();
         }
+
+        
+
 
         public List<string> Get_Class()
         {
@@ -100,9 +108,12 @@ namespace Student_Management.DAL
                     header = sr.ReadLine();
                 }
                 string[] headerColumns = header.Split(',');
+                StringBuilder build = new StringBuilder();
                 foreach (string headerColumn in headerColumns)
                 {
+                   
                     if (headerColumn == "STT") continue;
+                    //headerColumn.Replace(" ", ""); 
                     importedData.Columns.Add(headerColumn);
                 }
                 importedData.Columns.Add("Class");
@@ -138,6 +149,8 @@ namespace Student_Management.DAL
                 dbConnection.Close();
             }
 
+            Update_dsHS(table);
+
         }
 
         public void Add_Student(string MSSV, string Name, string Gender, string CMND, string Class)
@@ -156,7 +169,7 @@ namespace Student_Management.DAL
 
             cmd.ExecuteNonQuery();
             cnn.Close();
-            Update_dsHS();
+            Update_dsHS("Students");
         }
 
         public List<List<string>> Get_Student_of_a_class(string Class)
@@ -164,7 +177,7 @@ namespace Student_Management.DAL
             List<List<string>> student = new List<List<string>>();
             for (int i = 0; i < dsHS.Tables["HocSinh"].Rows.Count; i++)
             {
-                
+
                 List<string> temp0 = new List<string>();
                 DataRow temp = dsHS.Tables["HocSinh"].Rows[i];
                 if (temp[5].ToString() == Class)
@@ -180,7 +193,32 @@ namespace Student_Management.DAL
             }
             return student;
         }
+
+
+        public List<List<string>> Get_Courses_of_a_class(string Class)
+        {
+            List<List<string>> course = new List<List<string>>();
+            for (int i = 0; i < dsHS.Tables["Courses"].Rows.Count; i++)
+            {
+
+                List<string> temp0 = new List<string>();
+                DataRow temp = dsHS.Tables["Courses"].Rows[i];
+                if (temp[4].ToString() == Class)
+                {
+                    temp0.Add(temp[0].ToString());
+                    temp0.Add(temp[1].ToString());
+                    temp0.Add(temp[2].ToString());
+                    temp0.Add(temp[3].ToString());
+                    temp0.Add(temp[4].ToString());
+                
+                    course.Add(temp0);
+                }
+            }
+            return course;
+        }
     }
+
+
 }
 
 
