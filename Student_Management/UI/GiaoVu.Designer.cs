@@ -51,6 +51,7 @@
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.cbtable = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -192,7 +193,7 @@
             // 
             this.tbfile.Location = new System.Drawing.Point(13, 305);
             this.tbfile.Name = "tbfile";
-            this.tbfile.Size = new System.Drawing.Size(321, 20);
+            this.tbfile.Size = new System.Drawing.Size(238, 20);
             this.tbfile.TabIndex = 4;
             this.tbfile.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tbfile_MouseClick);
             // 
@@ -238,11 +239,23 @@
             this.radioButton1.Text = "Class";
             this.radioButton1.UseVisualStyleBackColor = true;
             // 
+            // cbtable
+            // 
+            this.cbtable.FormattingEnabled = true;
+            this.cbtable.Items.AddRange(new object[] {
+            "Students",
+            "Courses"});
+            this.cbtable.Location = new System.Drawing.Point(257, 304);
+            this.cbtable.Name = "cbtable";
+            this.cbtable.Size = new System.Drawing.Size(77, 21);
+            this.cbtable.TabIndex = 6;
+            // 
             // GiaoVu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(963, 331);
+            this.Controls.Add(this.cbtable);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tbfile);
             this.Controls.Add(this.button1);
@@ -286,5 +299,6 @@
         private System.Windows.Forms.RadioButton radioButton3;
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.ComboBox cbtable;
     }
 }

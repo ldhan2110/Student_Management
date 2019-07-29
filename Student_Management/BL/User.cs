@@ -50,9 +50,10 @@ namespace Student_Management.BL
         }
 
 
-        public void Impor_CSV_DB(string filename,string table)
+        public bool Impor_CSV_DB(string filename,string table)
         {
-            data.Import_CSV_into_System(filename, table);
+            if (data.Import_CSV_into_System(filename, table)) return true;
+            return false;
         }
 
         public List<string> Get_Class()

@@ -19,10 +19,7 @@ namespace Student_Management.DAL
         public DataAccess()
         {
             cnn.ConnectionString = "Provider=SQLNCLI11;Server=DESKTOP-NGVBILI\\SQLEXPRESS;Database=University;Trusted_Connection=yes";
-            cnn.Open();
-            OleDbDataAdapter da = new OleDbDataAdapter("SELECT * FROM Students", cnn);
-            da.Fill(dsHS, "HocSinh");
-            cnn.Close();
+            
         }
 
         public bool Check_User_Password(string username, string password, out string type, out string Password, out string Username)
@@ -74,68 +71,71 @@ namespace Student_Management.DAL
         public void Update_dsHS(string table)
         {
             cnn.Open();
-            string command = "SELECT * FROM "+ table; 
+            string command = "SELECT * FROM " + table;
             OleDbDataAdapter da = new OleDbDataAdapter(command, cnn);
+            //dsHS.Tables[table].Rows.Clear();
             da.Fill(dsHS, table);
             cnn.Close();
         }
 
-        
+
 
 
         public List<string> Get_Class()
         {
             List<string> result = new List<string>();
 
-            for (int i = 0; i < dsHS.Tables["HocSinh"].Rows.Count; i++)
+            for (int i = 0; i < dsHS.Tables["Students"].Rows.Count; i++)
             {
-                DataRow current = dsHS.Tables["HocSinh"].Rows[i];
+                DataRow current = dsHS.Tables["Students"].Rows[i];
                 if (!result.Contains(current[5]))
                     result.Add(current[5].ToString());
             }
             return result;
         }
 
-        public void Import_CSV_into_System(string filename, string table)
+        public bool Import_CSV_into_System(string filename, string table)
         {
             DataTable importedData = new DataTable();
             string header = null;
-            using (StreamReader sr = new StreamReader(filename))
+            if (table == "Students" || table == "Courses")
             {
-                string Class = sr.ReadLine();
-                if (string.IsNullOrEmpty(header))
+                using (StreamReader sr = new StreamReader(filename))
                 {
-                    header = sr.ReadLine();
-                }
-                string[] headerColumns = header.Split(',');
-                StringBuilder build = new StringBuilder();
-                foreach (string headerColumn in headerColumns)
-                {
-                   
-                    if (headerColumn == "STT") continue;
-                    //headerColumn.Replace(" ", ""); 
-                    importedData.Columns.Add(headerColumn);
-                }
-                importedData.Columns.Add("Class");
-
-                while (!sr.EndOfStream)
-                {
-                    sr.Read(new char[2], 0, 2);
-                    string line = sr.ReadLine() + ',' + Class;
-                    if (string.IsNullOrEmpty(line)) continue;
-                    string[] fields = line.Split(',');
-                    DataRow importedRow = importedData.NewRow();
-
-                    for (int i = 0; i < fields.Count(); i++)
+                    string Class = sr.ReadLine();
+                    if (string.IsNullOrEmpty(header))
+                    {
+                        header = sr.ReadLine();
+                    }
+                    string[] headerColumns = header.Split(',');
+                    if (table == "Students" && headerColumns.Length != 5) return false;
+                    else if (table == "Courses" && headerColumns.Length != 4) return false;
+                    foreach (string headerColumn in headerColumns)
                     {
 
-                        importedRow[i] = fields[i];
-
+                        if (headerColumn == "STT") continue;
+                        importedData.Columns.Add(headerColumn);
                     }
-                    importedData.Rows.Add(importedRow);
+                    importedData.Columns.Add("Class");
+
+                    while (!sr.EndOfStream)
+                    {
+                        sr.Read(new char[2], 0, 2);
+                        string line = sr.ReadLine() + ',' + Class;
+                        if (string.IsNullOrEmpty(line)) continue;
+                        string[] fields = line.Split(',');
+                        DataRow importedRow = importedData.NewRow();
+
+                        for (int i = 0; i < fields.Count(); i++)
+                        {
+
+                            importedRow[i] = fields[i];
+
+                        }
+                        importedData.Rows.Add(importedRow);
+                    }
                 }
             }
-
             using (SqlConnection dbConnection = new SqlConnection("Data Source=DESKTOP-NGVBILI\\SQLEXPRESS;Initial Catalog=University;Integrated Security=SSPI;"))
             {
                 dbConnection.Open();
@@ -150,7 +150,7 @@ namespace Student_Management.DAL
             }
 
             Update_dsHS(table);
-
+            return true;
         }
 
         public void Add_Student(string MSSV, string Name, string Gender, string CMND, string Class)
@@ -175,11 +175,11 @@ namespace Student_Management.DAL
         public List<List<string>> Get_Student_of_a_class(string Class)
         {
             List<List<string>> student = new List<List<string>>();
-            for (int i = 0; i < dsHS.Tables["HocSinh"].Rows.Count; i++)
+            for (int i = 0; i < dsHS.Tables["Students"].Rows.Count; i++)
             {
 
                 List<string> temp0 = new List<string>();
-                DataRow temp = dsHS.Tables["HocSinh"].Rows[i];
+                DataRow temp = dsHS.Tables["Students"].Rows[i];
                 if (temp[5].ToString() == Class)
                 {
                     temp0.Add(temp[0].ToString());
@@ -210,7 +210,7 @@ namespace Student_Management.DAL
                     temp0.Add(temp[2].ToString());
                     temp0.Add(temp[3].ToString());
                     temp0.Add(temp[4].ToString());
-                
+
                     course.Add(temp0);
                 }
             }

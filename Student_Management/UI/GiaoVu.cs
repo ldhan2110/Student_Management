@@ -19,7 +19,7 @@ namespace Student_Management.UI
         {
             user = u;
             InitializeComponent();
-           
+
             foreach (string s in user.Get_Class())
                 cbClass.Items.Add(s);
 
@@ -38,7 +38,7 @@ namespace Student_Management.UI
             listView.Clear();
             listView.GridLines = true;
             listView.Columns.Add("STT", 38);
-
+            listView.Items.Clear();
             if (radioButton1.Checked == true)
             {
                 listView.Columns.Add("MSSV", 60);
@@ -62,10 +62,10 @@ namespace Student_Management.UI
             }
 
             if (radioButton2.Checked == true)
-            {   
-                listView.Columns.Add("Mã môn",60);
-                listView.Columns.Add("Tên môn",159);
-                listView.Columns.Add("Phòng học",100);
+            {
+                listView.Columns.Add("Mã môn", 60);
+                listView.Columns.Add("Tên môn", 159);
+                listView.Columns.Add("Phòng học", 100);
 
                 List<List<string>> list_student = user.Get_Courses_of_a_class(cbClass.SelectedItem.ToString());
 
@@ -77,7 +77,7 @@ namespace Student_Management.UI
                     item.SubItems.Add(s[2]);
                     item.SubItems.Add(s[3]);
                     item.SubItems.Add(s[4]);
-                    
+
                     listView.Items.Add(item);
                 }
 
@@ -86,24 +86,22 @@ namespace Student_Management.UI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (radioButton1.Checked == true)
+            if (cbtable.SelectedItem is null)
             {
-                user.Impor_CSV_DB(tbfile.Text, "Students");
-                
+                MessageBox.Show("You must choose a table to insert !!");
+
             }
-            if (radioButton2.Checked == true)
-            {
-                user.Impor_CSV_DB(tbfile.Text, "Courses");
-                
-            }
-            MessageBox.Show("Import Successfully !!");
+            if (user.Impor_CSV_DB(tbfile.Text, cbtable.SelectedItem.ToString()))
+                MessageBox.Show("Import Successfully !!");
+            else
+                MessageBox.Show("Import failed !!", "ERRORS", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
         private void tbfile_MouseClick(object sender, MouseEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "CSV|*.csv";
-           
+
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 tbfile.Text = ofd.FileName;
@@ -117,7 +115,6 @@ namespace Student_Management.UI
                 Add_Student add_form = new Add_Student(user);
                 add_form.ShowDialog();
             }
-
             cbClass.Items.Clear();
             foreach (string s in user.Get_Class())
                 cbClass.Items.Add(s);

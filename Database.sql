@@ -32,6 +32,15 @@ CREATE TABLE Users
 	Roles CHAR(1) CHECK (Roles = 'A' OR Roles = 'G' OR Roles = 'S')
 )
 
+CREATE TABLE ClassCourses
+(
+	STT INT IDENTITY(1,1),
+	MSSV NVARCHAR(8) NOT NULL,
+	MãMôn NVARCHAR(8) NOT NULL,
+	Class NVARCHAR(20) NOT NULL,
+	PRIMARY KEY(MSSV,MãMôn,Class)
+)
+
 INSERT INTO Users VALUES('admin','123','A');
 INSERT INTO Users VALUES('htthanh','123','G');
 INSERT INTO Users VALUES('1753027','123','S');
