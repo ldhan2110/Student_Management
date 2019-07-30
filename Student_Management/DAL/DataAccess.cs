@@ -19,7 +19,7 @@ namespace Student_Management.DAL
         public DataAccess()
         {
             cnn.ConnectionString = "Provider=SQLNCLI11;Server=DESKTOP-NGVBILI\\SQLEXPRESS;Database=University;Trusted_Connection=yes";
-            
+
         }
 
         public bool Check_User_Password(string username, string password, out string type, out string Password, out string Username)
@@ -65,19 +65,15 @@ namespace Student_Management.DAL
         }
 
 
-
-
-
         public void Update_dsHS(string table)
         {
             cnn.Open();
             string command = "SELECT * FROM " + table;
             OleDbDataAdapter da = new OleDbDataAdapter(command, cnn);
-            //dsHS.Tables[table].Rows.Clear();
+            //  dsHS.Tables.Remove(table);
             da.Fill(dsHS, table);
             cnn.Close();
         }
-
 
 
 
@@ -98,44 +94,43 @@ namespace Student_Management.DAL
         {
             DataTable importedData = new DataTable();
             string header = null;
-            if (table == "Students" || table == "Courses")
+
+            using (StreamReader sr = new StreamReader(filename))
             {
-                using (StreamReader sr = new StreamReader(filename))
+                string Class = sr.ReadLine();
+                if (string.IsNullOrEmpty(header))
                 {
-                    string Class = sr.ReadLine();
-                    if (string.IsNullOrEmpty(header))
+                    header = sr.ReadLine();
+                }
+                string[] headerColumns = header.Split(',');
+                if (table == "Students" && headerColumns.Length != 5) return false;
+                else if (table == "Courses" && headerColumns.Length != 4) return false;
+                foreach (string headerColumn in headerColumns)
+                {
+
+                    if (headerColumn == "STT") continue;
+                    importedData.Columns.Add(headerColumn);
+                }
+                importedData.Columns.Add("Class");
+
+                while (!sr.EndOfStream)
+                {
+                    sr.Read(new char[2], 0, 2);
+                    string line = sr.ReadLine() + ',' + Class;
+                    if (string.IsNullOrEmpty(line)) continue;
+                    string[] fields = line.Split(',');
+                    DataRow importedRow = importedData.NewRow();
+
+                    for (int i = 0; i < fields.Count(); i++)
                     {
-                        header = sr.ReadLine();
+
+                        importedRow[i] = fields[i];
+
                     }
-                    string[] headerColumns = header.Split(',');
-                    if (table == "Students" && headerColumns.Length != 5) return false;
-                    else if (table == "Courses" && headerColumns.Length != 4) return false;
-                    foreach (string headerColumn in headerColumns)
-                    {
-
-                        if (headerColumn == "STT") continue;
-                        importedData.Columns.Add(headerColumn);
-                    }
-                    importedData.Columns.Add("Class");
-
-                    while (!sr.EndOfStream)
-                    {
-                        sr.Read(new char[2], 0, 2);
-                        string line = sr.ReadLine() + ',' + Class;
-                        if (string.IsNullOrEmpty(line)) continue;
-                        string[] fields = line.Split(',');
-                        DataRow importedRow = importedData.NewRow();
-
-                        for (int i = 0; i < fields.Count(); i++)
-                        {
-
-                            importedRow[i] = fields[i];
-
-                        }
-                        importedData.Rows.Add(importedRow);
-                    }
+                    importedData.Rows.Add(importedRow);
                 }
             }
+
             using (SqlConnection dbConnection = new SqlConnection("Data Source=DESKTOP-NGVBILI\\SQLEXPRESS;Initial Catalog=University;Integrated Security=SSPI;"))
             {
                 dbConnection.Open();
@@ -150,6 +145,7 @@ namespace Student_Management.DAL
             }
 
             Update_dsHS(table);
+            if (table == "Courses") Update_ClassCourses();
             return true;
         }
 
@@ -195,6 +191,7 @@ namespace Student_Management.DAL
         }
 
 
+
         public List<List<string>> Get_Courses_of_a_class(string Class)
         {
             List<List<string>> course = new List<List<string>>();
@@ -215,6 +212,42 @@ namespace Student_Management.DAL
                 }
             }
             return course;
+        }
+
+        public List<string> Get_Class_course()
+        {
+            List<string> result = new List<string>();
+
+            for (int i = 0; i < dsHS.Tables["Courses"].Rows.Count; i++)
+            {
+                DataRow current = dsHS.Tables["Courses"].Rows[i];
+                if (!result.Contains(current[4]))
+                    result.Add(current[4].ToString());
+            }
+            return result;
+        }
+
+
+        private void Update_ClassCourses()
+        {
+            cnn.Open();
+            OleDbDataAdapter da = new OleDbDataAdapter("SELECT e.MSSV,f.MãMôn,f.Class FROM Students e JOIN Courses f ON e.Class = f.Class", cnn);
+            DataSet temp = new DataSet();
+            da.Fill(temp, "ClassCourses");
+            cnn.Close();
+
+            using (SqlConnection dbConnection = new SqlConnection("Data Source=DESKTOP-NGVBILI\\SQLEXPRESS;Initial Catalog=University;Integrated Security=SSPI;"))
+            {
+                dbConnection.Open();
+                using (SqlBulkCopy s = new SqlBulkCopy(dbConnection))
+                {
+                    s.DestinationTableName = "ClassCourses";
+                    foreach (var column in temp.Tables["ClassCourses"].Columns)
+                        s.ColumnMappings.Add(column.ToString(), column.ToString());
+                    s.WriteToServer(temp.Tables["ClassCourses"]);
+                }
+                dbConnection.Close();
+            };
         }
     }
 

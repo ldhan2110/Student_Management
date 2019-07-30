@@ -52,6 +52,7 @@
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.cbtable = new System.Windows.Forms.ComboBox();
+            this.radiobutton4 = new System.Windows.Forms.RadioButton();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -199,18 +200,19 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.radiobutton4);
             this.panel1.Controls.Add(this.radioButton3);
             this.panel1.Controls.Add(this.radioButton2);
             this.panel1.Controls.Add(this.radioButton1);
             this.panel1.Location = new System.Drawing.Point(121, 27);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(191, 26);
+            this.panel1.Size = new System.Drawing.Size(294, 26);
             this.panel1.TabIndex = 5;
             // 
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(136, 6);
+            this.radioButton3.Location = new System.Drawing.Point(228, 5);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(53, 17);
             this.radioButton3.TabIndex = 2;
@@ -226,6 +228,7 @@
             this.radioButton2.TabIndex = 1;
             this.radioButton2.Text = "Schedule";
             this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
             // radioButton1
             // 
@@ -238,17 +241,30 @@
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Class";
             this.radioButton1.UseVisualStyleBackColor = true;
+            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // cbtable
             // 
             this.cbtable.FormattingEnabled = true;
             this.cbtable.Items.AddRange(new object[] {
             "Students",
-            "Courses"});
+            "Courses",
+            "Scores"});
             this.cbtable.Location = new System.Drawing.Point(257, 304);
             this.cbtable.Name = "cbtable";
             this.cbtable.Size = new System.Drawing.Size(77, 21);
             this.cbtable.TabIndex = 6;
+            // 
+            // radiobutton4
+            // 
+            this.radiobutton4.AutoSize = true;
+            this.radiobutton4.Location = new System.Drawing.Point(136, 6);
+            this.radiobutton4.Name = "radiobutton4";
+            this.radiobutton4.Size = new System.Drawing.Size(86, 17);
+            this.radiobutton4.TabIndex = 3;
+            this.radiobutton4.TabStop = true;
+            this.radiobutton4.Text = "Class Course";
+            this.radiobutton4.UseVisualStyleBackColor = true;
             // 
             // GiaoVu
             // 
@@ -300,5 +316,6 @@
         private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.ComboBox cbtable;
+        private System.Windows.Forms.RadioButton radiobutton4;
     }
 }

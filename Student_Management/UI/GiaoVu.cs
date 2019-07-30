@@ -19,11 +19,8 @@ namespace Student_Management.UI
         {
             user = u;
             InitializeComponent();
-
             foreach (string s in user.Get_Class())
                 cbClass.Items.Add(s);
-
-
         }
 
         private void changePasswordToolStripMenuItem_Click(object sender, EventArgs e)
@@ -39,6 +36,7 @@ namespace Student_Management.UI
             listView.GridLines = true;
             listView.Columns.Add("STT", 38);
             listView.Items.Clear();
+
             if (radioButton1.Checked == true)
             {
                 listView.Columns.Add("MSSV", 60);
@@ -48,16 +46,18 @@ namespace Student_Management.UI
 
                 List<List<string>> list_student = user.Get_Student_of_a_class(cbClass.SelectedItem.ToString());
 
+                int i = 0;
                 foreach (List<string> s in list_student)
                 {
                     ListViewItem item = new ListViewItem();
-                    item.Text = s[0];
+                    item.Text = i.ToString();
                     item.SubItems.Add(s[1]);
                     item.SubItems.Add(s[2]);
                     item.SubItems.Add(s[3]);
                     item.SubItems.Add(s[4]);
                     item.SubItems.Add(s[5]);
                     listView.Items.Add(item);
+                    i++;
                 }
             }
 
@@ -69,19 +69,21 @@ namespace Student_Management.UI
 
                 List<List<string>> list_student = user.Get_Courses_of_a_class(cbClass.SelectedItem.ToString());
 
+                int i = 0;
                 foreach (List<string> s in list_student)
                 {
                     ListViewItem item = new ListViewItem();
-                    item.Text = s[0];
+                    item.Text = i.ToString();
                     item.SubItems.Add(s[1]);
                     item.SubItems.Add(s[2]);
                     item.SubItems.Add(s[3]);
                     item.SubItems.Add(s[4]);
-
                     listView.Items.Add(item);
+                    i++;
                 }
 
             }
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -118,6 +120,30 @@ namespace Student_Management.UI
             cbClass.Items.Clear();
             foreach (string s in user.Get_Class())
                 cbClass.Items.Add(s);
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            
+            if (radioButton1.Checked == true)
+            {
+                cbClass.Items.Clear();
+                List<string> temp = user.Get_Class();
+                foreach (string s in temp)
+                    cbClass.Items.Add(s);
+            }
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton2.Checked == true)
+            {
+                cbClass.Items.Clear();
+                foreach (string s in user.Get_Class_course())
+                {
+                    cbClass.Items.Add(s);
+                }
+            }
         }
     }
 }

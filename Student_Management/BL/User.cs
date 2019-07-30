@@ -49,7 +49,7 @@ namespace Student_Management.BL
             type = null;
         }
 
-
+//---------------------------------------------------------------------------------------------------------------------------
         public bool Impor_CSV_DB(string filename,string table)
         {
             if (data.Import_CSV_into_System(filename, table)) return true;
@@ -71,9 +71,19 @@ namespace Student_Management.BL
             return data.Get_Student_of_a_class(Class);
         }
 
+//---------------------------------------------------------------------------------------------------------------------------
+        public List<string> Get_Class_course()
+        {
+            return data.Get_Class_course();
+        }
+
         public List<List<string>>Get_Courses_of_a_class(string Class)
         {
             return data.Get_Courses_of_a_class(Class);
         }
+
+//---------------------------------------------------------------------------------------------------------------------------
+        
+
     }
 }

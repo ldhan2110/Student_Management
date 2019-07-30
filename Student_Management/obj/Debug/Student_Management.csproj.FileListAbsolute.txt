@@ -11,3 +11,4 @@ D:\Study\Source Code\C#\Student_Management\Student_Management\obj\Debug\Student_
 D:\Study\Source Code\C#\Student_Management\Student_Management\obj\Debug\Student_Management.csproj.CoreCompileInputs.cache
 D:\Study\Source Code\C#\Student_Management\Student_Management\obj\Debug\Student_Management.exe
 D:\Study\Source Code\C#\Student_Management\Student_Management\obj\Debug\Student_Management.pdb
+D:\Study\Source Code\C#\Student_Management\Student_Management\obj\Debug\Student_Management.csprojResolveAssemblyReference.cache
