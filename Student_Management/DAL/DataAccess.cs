@@ -70,11 +70,10 @@ namespace Student_Management.DAL
             cnn.Open();
             string command = "SELECT * FROM " + table;
             OleDbDataAdapter da = new OleDbDataAdapter(command, cnn);
-            //  dsHS.Tables.Remove(table);
             da.Fill(dsHS, table);
             cnn.Close();
         }
-
+//------------------------------------------------------------------------------------------------------------------------
 
 
         public List<string> Get_Class()
@@ -190,7 +189,7 @@ namespace Student_Management.DAL
             return student;
         }
 
-
+//------------------------------------------------------------------------------------------------------------------------
 
         public List<List<string>> Get_Courses_of_a_class(string Class)
         {
@@ -227,14 +226,14 @@ namespace Student_Management.DAL
             return result;
         }
 
-
+//------------------------------------------------------------------------------------------------------------------------
         private void Update_ClassCourses()
         {
             cnn.Open();
             OleDbDataAdapter da = new OleDbDataAdapter("SELECT e.MSSV,f.MãMôn,f.Class FROM Students e JOIN Courses f ON e.Class = f.Class", cnn);
-            DataSet temp = new DataSet();
-            da.Fill(temp, "ClassCourses");
+            da.Fill(dsHS, "ClassCourses");
             cnn.Close();
+
 
             using (SqlConnection dbConnection = new SqlConnection("Data Source=DESKTOP-NGVBILI\\SQLEXPRESS;Initial Catalog=University;Integrated Security=SSPI;"))
             {
@@ -242,12 +241,57 @@ namespace Student_Management.DAL
                 using (SqlBulkCopy s = new SqlBulkCopy(dbConnection))
                 {
                     s.DestinationTableName = "ClassCourses";
-                    foreach (var column in temp.Tables["ClassCourses"].Columns)
+                    foreach (var column in dsHS.Tables["ClassCourses"].Columns)
                         s.ColumnMappings.Add(column.ToString(), column.ToString());
-                    s.WriteToServer(temp.Tables["ClassCourses"]);
+                    s.WriteToServer(dsHS.Tables["ClassCourses"]);
                 }
                 dbConnection.Close();
             };
+        }
+
+        public List<string> Get_Course_Class()
+        {
+            List<string> result = new List<string>();
+            
+            for (int i = 0; i < dsHS.Tables["ClassCourses"].Rows.Count; i++)
+            {
+                StringBuilder s = new StringBuilder();
+                DataRow current = dsHS.Tables["ClassCourses"].Rows[i];
+                if (!result.Contains(current[2]))
+                {
+                    s.Insert(0, current[3].ToString() + "-" + current[2].ToString());
+                    result.Add(s.ToString());
+                }
+            }
+            return result;
+        }
+
+        public List<List<string>> Get_Student_of_a_Course_class(string Class,string Course)
+        {
+            List<List<string>> student = new List<List<string>>();
+            for (int i = 0; i < dsHS.Tables["ClassCourses"].Rows.Count; i++)
+            {
+                List<string> temp0 = new List<string>();
+                DataRow temp = dsHS.Tables["ClassCourses"].Rows[i];
+                if (temp[3].ToString() == Class && temp[2].ToString() == Course)
+                {
+                    for (int j = 0; j < dsHS.Tables["Students"].Rows.Count;j++)
+                    {
+                        DataRow temp1 = dsHS.Tables["Students"].Rows[j];
+                        if (temp1[1].ToString()==temp[1].ToString())
+                        {
+                            temp0.Add(temp1[1].ToString());
+                            temp0.Add(temp1[2].ToString());
+                            temp0.Add(temp1[3].ToString());
+                            temp0.Add(temp1[4].ToString());
+                            student.Add(temp0);
+                            break;
+                        }
+                    }
+                   
+                }
+            }
+            return student;
         }
     }
 

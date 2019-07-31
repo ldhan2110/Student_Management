@@ -46,7 +46,7 @@ namespace Student_Management.UI
 
                 List<List<string>> list_student = user.Get_Student_of_a_class(cbClass.SelectedItem.ToString());
 
-                int i = 0;
+                int i = 1;
                 foreach (List<string> s in list_student)
                 {
                     ListViewItem item = new ListViewItem();
@@ -69,7 +69,7 @@ namespace Student_Management.UI
 
                 List<List<string>> list_student = user.Get_Courses_of_a_class(cbClass.SelectedItem.ToString());
 
-                int i = 0;
+                int i = 1;
                 foreach (List<string> s in list_student)
                 {
                     ListViewItem item = new ListViewItem();
@@ -82,6 +82,29 @@ namespace Student_Management.UI
                     i++;
                 }
 
+            }
+
+            if (radiobutton4.Checked == true)
+            {
+                listView.Columns.Add("MSSV", 60);
+                listView.Columns.Add("Họ tên", 159);
+                listView.Columns.Add("Giới tính", 60);
+                listView.Columns.Add("CMND", 85);
+
+                List<List<string>> list_student = user.Get_Student_of_a_Course_class(cbClass.SelectedItem.ToString());
+
+                int i = 1;
+                foreach (List<string> s in list_student)
+                {
+                    ListViewItem item = new ListViewItem();
+                    item.Text = i.ToString();
+                    item.SubItems.Add(s[0]);
+                    item.SubItems.Add(s[1]);
+                    item.SubItems.Add(s[2]);
+                    item.SubItems.Add(s[3]);
+                    listView.Items.Add(item);
+                    i++;
+                }
             }
 
         }
@@ -140,6 +163,18 @@ namespace Student_Management.UI
             {
                 cbClass.Items.Clear();
                 foreach (string s in user.Get_Class_course())
+                {
+                    cbClass.Items.Add(s);
+                }
+            }
+        }
+
+        private void radiobutton4_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radiobutton4.Checked == true)
+            {
+                cbClass.Items.Clear();
+                foreach (string s in user.Get_Course_Class())
                 {
                     cbClass.Items.Add(s);
                 }

@@ -48,11 +48,11 @@
             this.button1 = new System.Windows.Forms.Button();
             this.tbfile = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.radiobutton4 = new System.Windows.Forms.RadioButton();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.cbtable = new System.Windows.Forms.ComboBox();
-            this.radiobutton4 = new System.Windows.Forms.RadioButton();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -117,7 +117,7 @@
             this.listView.FullRowSelect = true;
             this.listView.Location = new System.Drawing.Point(13, 60);
             this.listView.Name = "listView";
-            this.listView.Size = new System.Drawing.Size(403, 239);
+            this.listView.Size = new System.Drawing.Size(434, 239);
             this.listView.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.listView.TabIndex = 1;
             this.listView.UseCompatibleStateImageBehavior = false;
@@ -147,6 +147,7 @@
             // 
             this.columnHeader5.Text = "CMND";
             this.columnHeader5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnHeader5.Width = 70;
             // 
             // contextMenuStrip1
             // 
@@ -176,13 +177,13 @@
             this.cbClass.FormattingEnabled = true;
             this.cbClass.Location = new System.Drawing.Point(13, 28);
             this.cbClass.Name = "cbClass";
-            this.cbClass.Size = new System.Drawing.Size(102, 21);
+            this.cbClass.Size = new System.Drawing.Size(125, 21);
             this.cbClass.TabIndex = 2;
             this.cbClass.SelectedIndexChanged += new System.EventHandler(this.cbClass_SelectedIndexChanged);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(340, 305);
+            this.button1.Location = new System.Drawing.Point(374, 305);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 3;
@@ -194,7 +195,7 @@
             // 
             this.tbfile.Location = new System.Drawing.Point(13, 305);
             this.tbfile.Name = "tbfile";
-            this.tbfile.Size = new System.Drawing.Size(238, 20);
+            this.tbfile.Size = new System.Drawing.Size(272, 20);
             this.tbfile.TabIndex = 4;
             this.tbfile.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tbfile_MouseClick);
             // 
@@ -204,10 +205,22 @@
             this.panel1.Controls.Add(this.radioButton3);
             this.panel1.Controls.Add(this.radioButton2);
             this.panel1.Controls.Add(this.radioButton1);
-            this.panel1.Location = new System.Drawing.Point(121, 27);
+            this.panel1.Location = new System.Drawing.Point(144, 27);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(294, 26);
+            this.panel1.Size = new System.Drawing.Size(303, 26);
             this.panel1.TabIndex = 5;
+            // 
+            // radiobutton4
+            // 
+            this.radiobutton4.AutoSize = true;
+            this.radiobutton4.Location = new System.Drawing.Point(136, 6);
+            this.radiobutton4.Name = "radiobutton4";
+            this.radiobutton4.Size = new System.Drawing.Size(86, 17);
+            this.radiobutton4.TabIndex = 3;
+            this.radiobutton4.TabStop = true;
+            this.radiobutton4.Text = "Class Course";
+            this.radiobutton4.UseVisualStyleBackColor = true;
+            this.radiobutton4.CheckedChanged += new System.EventHandler(this.radiobutton4_CheckedChanged);
             // 
             // radioButton3
             // 
@@ -250,21 +263,10 @@
             "Students",
             "Courses",
             "Scores"});
-            this.cbtable.Location = new System.Drawing.Point(257, 304);
+            this.cbtable.Location = new System.Drawing.Point(291, 304);
             this.cbtable.Name = "cbtable";
             this.cbtable.Size = new System.Drawing.Size(77, 21);
             this.cbtable.TabIndex = 6;
-            // 
-            // radiobutton4
-            // 
-            this.radiobutton4.AutoSize = true;
-            this.radiobutton4.Location = new System.Drawing.Point(136, 6);
-            this.radiobutton4.Name = "radiobutton4";
-            this.radiobutton4.Size = new System.Drawing.Size(86, 17);
-            this.radiobutton4.TabIndex = 3;
-            this.radiobutton4.TabStop = true;
-            this.radiobutton4.Text = "Class Course";
-            this.radiobutton4.UseVisualStyleBackColor = true;
             // 
             // GiaoVu
             // 

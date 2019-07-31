@@ -18,6 +18,7 @@ namespace Student_Management.BL
         {
             data.Update_dsHS("Students");
             data.Update_dsHS("Courses");
+            data.Update_dsHS("ClassCourses");
         }
 
         public bool Check_User(string username, string password)
@@ -83,7 +84,16 @@ namespace Student_Management.BL
         }
 
 //---------------------------------------------------------------------------------------------------------------------------
-        
+        public List<string>Get_Course_Class()
+        {
+            return data.Get_Course_Class();
+        }
+
+        public List<List<string>> Get_Student_of_a_Course_class(string Class)
+        {
+            string[] temp = Class.Split('-');
+            return data.Get_Student_of_a_Course_class(temp[0], temp[1]);
+        }
 
     }
 }
