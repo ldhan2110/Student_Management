@@ -73,7 +73,7 @@ namespace Student_Management.DAL
             da.Fill(dsHS, table);
             cnn.Close();
         }
-//------------------------------------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------------------------------------
 
 
         public List<string> Get_Class()
@@ -97,6 +97,8 @@ namespace Student_Management.DAL
             using (StreamReader sr = new StreamReader(filename))
             {
                 string Class = sr.ReadLine();
+                string CourseID = "";
+                
                 if (string.IsNullOrEmpty(header))
                 {
                     header = sr.ReadLine();
@@ -104,18 +106,37 @@ namespace Student_Management.DAL
                 string[] headerColumns = header.Split(',');
                 if (table == "Students" && headerColumns.Length != 5) return false;
                 else if (table == "Courses" && headerColumns.Length != 4) return false;
+                else if (table == "Scores" && headerColumns.Length != 7) return false;
+
+                if (table == "Scores")
+                {
+                    string[] temp = Class.Split('-');
+                    Class = temp[0];
+                    CourseID = temp[1];
+                }
                 foreach (string headerColumn in headerColumns)
                 {
 
                     if (headerColumn == "STT") continue;
                     importedData.Columns.Add(headerColumn);
                 }
+
+                if (table == "Scores")
+                {
+                    importedData.Columns.Add("MãMôn");
+                }
+
                 importedData.Columns.Add("Class");
+
 
                 while (!sr.EndOfStream)
                 {
                     sr.Read(new char[2], 0, 2);
-                    string line = sr.ReadLine() + ',' + Class;
+                    string line;
+                    if (table != "Scores")
+                        line = sr.ReadLine() + ',' + Class;
+                    else
+                        line = sr.ReadLine() + ',' + CourseID + ',' + Class;
                     if (string.IsNullOrEmpty(line)) continue;
                     string[] fields = line.Split(',');
                     DataRow importedRow = importedData.NewRow();
@@ -189,7 +210,7 @@ namespace Student_Management.DAL
             return student;
         }
 
-//------------------------------------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------------------------------------
 
         public List<List<string>> Get_Courses_of_a_class(string Class)
         {
@@ -226,7 +247,7 @@ namespace Student_Management.DAL
             return result;
         }
 
-//------------------------------------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------------------------------------
         private void Update_ClassCourses()
         {
             cnn.Open();
@@ -252,21 +273,21 @@ namespace Student_Management.DAL
         public List<string> Get_Course_Class()
         {
             List<string> result = new List<string>();
-            
+
             for (int i = 0; i < dsHS.Tables["ClassCourses"].Rows.Count; i++)
             {
                 StringBuilder s = new StringBuilder();
                 DataRow current = dsHS.Tables["ClassCourses"].Rows[i];
-                if (!result.Contains(current[2]))
+                s.Insert(0, current[3].ToString() + "-" + current[2].ToString());
+                if (!result.Contains(s.ToString()))
                 {
-                    s.Insert(0, current[3].ToString() + "-" + current[2].ToString());
                     result.Add(s.ToString());
                 }
             }
             return result;
         }
 
-        public List<List<string>> Get_Student_of_a_Course_class(string Class,string Course)
+        public List<List<string>> Get_Student_of_a_Course_class(string Class, string Course)
         {
             List<List<string>> student = new List<List<string>>();
             for (int i = 0; i < dsHS.Tables["ClassCourses"].Rows.Count; i++)
@@ -275,10 +296,10 @@ namespace Student_Management.DAL
                 DataRow temp = dsHS.Tables["ClassCourses"].Rows[i];
                 if (temp[3].ToString() == Class && temp[2].ToString() == Course)
                 {
-                    for (int j = 0; j < dsHS.Tables["Students"].Rows.Count;j++)
+                    for (int j = 0; j < dsHS.Tables["Students"].Rows.Count; j++)
                     {
                         DataRow temp1 = dsHS.Tables["Students"].Rows[j];
-                        if (temp1[1].ToString()==temp[1].ToString())
+                        if (temp1[1].ToString() == temp[1].ToString())
                         {
                             temp0.Add(temp1[1].ToString());
                             temp0.Add(temp1[2].ToString());
@@ -288,11 +309,15 @@ namespace Student_Management.DAL
                             break;
                         }
                     }
-                   
+
                 }
             }
             return student;
         }
+
+        //-------------------------------------------------------------------------------------------------------------------------
+
+
     }
 
 

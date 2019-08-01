@@ -117,7 +117,7 @@ namespace Student_Management.UI
 
             }
             if (user.Impor_CSV_DB(tbfile.Text, cbtable.SelectedItem.ToString()))
-                MessageBox.Show("Import Successfully !!");
+                MessageBox.Show("Import Successfully !!","Success",MessageBoxButtons.OK,MessageBoxIcon.Information);
             else
                 MessageBox.Show("Import failed !!", "ERRORS", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
