@@ -107,6 +107,34 @@ namespace Student_Management.UI
                 }
             }
 
+            if (radioButton3.Checked == true)
+            {
+                listView.Columns.Add("MSSV", 60);
+                listView.Columns.Add("Họ tên", 159);
+                listView.Columns.Add("Điểm GK", 55);
+                listView.Columns.Add("Điểm CK", 55);
+                listView.Columns.Add("Điểm Khác", 75);
+                listView.Columns.Add("Điểm Tổng", 75);
+
+                List<List<string>> list_student = user.Get_Student_of_a_Score_class(cbClass.SelectedItem.ToString());
+
+                int i = 1;
+                foreach (List<string> s in list_student)
+                {
+                    ListViewItem item = new ListViewItem();
+                    item.Text = i.ToString();
+                    item.SubItems.Add(s[1]);
+                    item.SubItems.Add(s[2]);
+                    item.SubItems.Add(s[3]);
+                    item.SubItems.Add(s[4]);
+                    item.SubItems.Add(s[5]);
+                    item.SubItems.Add(s[6]);
+                    listView.Items.Add(item);
+                    i++;
+                }
+
+            }
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -175,6 +203,18 @@ namespace Student_Management.UI
             {
                 cbClass.Items.Clear();
                 foreach (string s in user.Get_Course_Class())
+                {
+                    cbClass.Items.Add(s);
+                }
+            }
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton3.Checked == true)
+            {
+                cbClass.Items.Clear();
+                foreach (string s in user.Get_Score_Class())
                 {
                     cbClass.Items.Add(s);
                 }

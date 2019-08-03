@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Student_Management.BL
 {
-   public class User
+    public class User
     {
         public string Username;
         private string Password;
@@ -19,11 +19,12 @@ namespace Student_Management.BL
             data.Update_dsHS("Students");
             data.Update_dsHS("Courses");
             data.Update_dsHS("ClassCourses");
+            data.Update_dsHS("Scores");
         }
 
         public bool Check_User(string username, string password)
         {
-            return data.Check_User_Password(username, password,out this.type,out Password,out  this.Username);
+            return data.Check_User_Password(username, password, out this.type, out Password, out this.Username);
         }
 
         public bool Check_User(string password)
@@ -50,8 +51,8 @@ namespace Student_Management.BL
             type = null;
         }
 
-//---------------------------------------------------------------------------------------------------------------------------
-        public bool Impor_CSV_DB(string filename,string table)
+        //---------------------------------------------------------------------------------------------------------------------------
+        public bool Impor_CSV_DB(string filename, string table)
         {
             if (data.Import_CSV_into_System(filename, table)) return true;
             return false;
@@ -67,24 +68,24 @@ namespace Student_Management.BL
             data.Add_Student(MSSV, Name, Gender, CMND, Class);
         }
 
-        public List<List<string>>Get_Student_of_a_class(string Class)
+        public List<List<string>> Get_Student_of_a_class(string Class)
         {
             return data.Get_Student_of_a_class(Class);
         }
 
-//---------------------------------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------------------------------------------------------
         public List<string> Get_Class_course()
         {
             return data.Get_Class_course();
         }
 
-        public List<List<string>>Get_Courses_of_a_class(string Class)
+        public List<List<string>> Get_Courses_of_a_class(string Class)
         {
             return data.Get_Courses_of_a_class(Class);
         }
 
-//---------------------------------------------------------------------------------------------------------------------------
-        public List<string>Get_Course_Class()
+        //---------------------------------------------------------------------------------------------------------------------------
+        public List<string> Get_Course_Class()
         {
             return data.Get_Course_Class();
         }
@@ -93,6 +94,18 @@ namespace Student_Management.BL
         {
             string[] temp = Class.Split('-');
             return data.Get_Student_of_a_Course_class(temp[0], temp[1]);
+        }
+        //----------------------------------------------------------------------------------------------------------------------------
+
+        public List<string> Get_Score_Class()
+        {
+            return data.Get_Score_Class();
+        }
+
+        public List<List<string>> Get_Student_of_a_Score_class(string Class)
+        {
+            string[] temp = Class.Split('-');
+            return data.Get_Student_of_a_Score_class(temp[0], temp[1]);
         }
 
     }

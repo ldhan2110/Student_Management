@@ -317,6 +317,47 @@ namespace Student_Management.DAL
 
         //-------------------------------------------------------------------------------------------------------------------------
 
+        public List<string>Get_Score_Class()
+        {
+            List<string> result = new List<string>();
+
+            for (int i = 0; i < dsHS.Tables["Scores"].Rows.Count; i++)
+            {
+                StringBuilder s = new StringBuilder();
+                DataRow current = dsHS.Tables["Scores"].Rows[i];
+                s.Insert(0, current[8].ToString() + "-" + current[7].ToString());
+                if (!result.Contains(s.ToString()))
+                {
+                    result.Add(s.ToString());
+                }
+            }
+            return result;
+        }
+
+        public List<List<string>> Get_Student_of_a_Score_class(string Class, string Course)
+        {
+            List<List<string>> score = new List<List<string>>();
+            for (int i = 0; i < dsHS.Tables["Scores"].Rows.Count; i++)
+            {
+                List<string> temp0 = new List<string>();
+                DataRow temp = dsHS.Tables["Scores"].Rows[i];
+                if (temp[8].ToString() == Class && temp[7].ToString() == Course)
+                {
+                    temp0.Add(temp[0].ToString());
+                    temp0.Add(temp[1].ToString());
+                    temp0.Add(temp[2].ToString());
+                    temp0.Add(temp[3].ToString());
+                    temp0.Add(temp[4].ToString());
+                    temp0.Add(temp[5].ToString());
+                    temp0.Add(temp[6].ToString());
+
+                    score.Add(temp0);
+                }
+
+
+            }
+            return score;
+        }
 
     }
 
