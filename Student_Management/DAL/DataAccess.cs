@@ -70,6 +70,10 @@ namespace Student_Management.DAL
             cnn.Open();
             string command = "SELECT * FROM " + table;
             OleDbDataAdapter da = new OleDbDataAdapter(command, cnn);
+            if (dsHS.Tables[table] != null)
+            {
+                dsHS.Tables[table].Clear();
+            }
             da.Fill(dsHS, table);
             cnn.Close();
         }
@@ -171,8 +175,8 @@ namespace Student_Management.DAL
 
         public void Add_Student(string MSSV, string Name, string Gender, string CMND, string Class)
         {
-
             cnn.Open();
+           
             OleDbCommand cmd = new OleDbCommand();
             cmd.Connection = cnn;
             cmd.CommandText = "INSERT INTO Students VALUES (?,?,?,?,?)";
@@ -186,6 +190,7 @@ namespace Student_Management.DAL
             cmd.ExecuteNonQuery();
             cnn.Close();
             Update_dsHS("Students");
+            //Update_ClassCourses();
         }
 
         public List<List<string>> Get_Student_of_a_class(string Class)
@@ -269,6 +274,8 @@ namespace Student_Management.DAL
                 dbConnection.Close();
             };
         }
+
+      
 
         public List<string> Get_Course_Class()
         {
@@ -355,6 +362,37 @@ namespace Student_Management.DAL
                 }
 
 
+            }
+            return score;
+        }
+
+        //------------------------------------------------------------------------------------------------------------------------------
+
+        public List<List<string>> Get_Score_of_a_student(string MSSV)
+        {
+            List<List<string>> score = new List<List<string>>();
+            for (int i = 0; i < dsHS.Tables["Scores"].Rows.Count; i++)
+            {
+                List<string> temp0 = new List<string>();
+                DataRow temp = dsHS.Tables["Scores"].Rows[i];
+                if (temp[1].ToString() == MSSV)
+                {
+                    temp0.Add(temp[3].ToString());
+                    temp0.Add(temp[4].ToString());
+                    temp0.Add(temp[5].ToString());
+                    temp0.Add(temp[6].ToString());
+                    temp0.Add(temp[7].ToString());
+                    for (int j = 0; j < dsHS.Tables["Courses"].Rows.Count;j++)
+                    {
+                        DataRow course = dsHS.Tables["Courses"].Rows[i];
+                        if (temp[7].ToString() == course[1].ToString())
+                        {
+                            temp0.Add(course[2].ToString());
+                            break;
+                        }
+                    }
+                    score.Add(temp0);
+                }
             }
             return score;
         }

@@ -16,6 +16,7 @@ namespace Student_Management.BL
 
         public User()
         {
+
             data.Update_dsHS("Students");
             data.Update_dsHS("Courses");
             data.Update_dsHS("ClassCourses");
@@ -108,5 +109,13 @@ namespace Student_Management.BL
             return data.Get_Student_of_a_Score_class(temp[0], temp[1]);
         }
 
+        //-------------------------------------------------------------------------------------------------------------------------------------------
+
+        public List<List<string>> Get_Score_of_a_student()
+        {
+
+            return data.Get_Score_of_a_student(this.Username);
+
+        }
     }
 }
