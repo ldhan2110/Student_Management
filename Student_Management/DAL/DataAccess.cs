@@ -102,7 +102,7 @@ namespace Student_Management.DAL
             {
                 string Class = sr.ReadLine();
                 string CourseID = "";
-                
+
                 if (string.IsNullOrEmpty(header))
                 {
                     header = sr.ReadLine();
@@ -176,7 +176,7 @@ namespace Student_Management.DAL
         public void Add_Student(string MSSV, string Name, string Gender, string CMND, string Class)
         {
             cnn.Open();
-           
+
             OleDbCommand cmd = new OleDbCommand();
             cmd.Connection = cnn;
             cmd.CommandText = "INSERT INTO Students VALUES (?,?,?,?,?)";
@@ -189,8 +189,15 @@ namespace Student_Management.DAL
 
             cmd.ExecuteNonQuery();
             cnn.Close();
-            Update_dsHS("Students");
-            //Update_ClassCourses();
+
+            DataRow row = dsHS.Tables["Students"].NewRow(); 
+            row[1] = MSSV;
+            row[2] = Name;
+            row[3] = Gender;
+            row[4] = CMND;
+            row[5] = Class;
+            dsHS.Tables["Students"].Rows.Add(row);
+            Update_ClassCourses(MSSV,Class);
         }
 
         public List<List<string>> Get_Student_of_a_class(string Class)
@@ -275,7 +282,52 @@ namespace Student_Management.DAL
             };
         }
 
-      
+        private void Update_ClassCourses(string MSSV, string Class)
+        {
+            cnn.Open();
+            foreach (DataRow row in dsHS.Tables["Courses"].Rows)
+            {
+                if (row[4].ToString() == Class)
+                {
+                    OleDbCommand cmd = new OleDbCommand();
+                    cmd.Connection = cnn;
+                    cmd.CommandText = "INSERT INTO ClassCourses VALUES (?,?,?)";
+                    cmd.Parameters.Add("@MSSV", OleDbType.VarWChar).Value = MSSV;
+                    cmd.Parameters.Add("@MãMôn", OleDbType.VarWChar).Value = row[1].ToString();
+                    cmd.Parameters.Add("@Class", OleDbType.VarWChar).Value = Class;
+                    cmd.ExecuteNonQuery();
+
+                    DataRow rows = dsHS.Tables["ClassCourses"].NewRow();
+                    rows[1] = MSSV;
+                    rows[2] = row[1].ToString();
+                    rows[3] = Class;
+                    dsHS.Tables["ClassCourses"].Rows.Add(rows);
+                }
+            }
+            cnn.Close();
+        }
+
+        public bool Remove_a_student_from_ClassCourses(string MSSV,string Class,string Courses)
+        {
+            foreach (DataRow s in dsHS.Tables["ClassCourses"].Rows)
+            {
+                if (s[1].ToString() == MSSV && s[2].ToString() == Courses && s[3].ToString() == Class)
+                {
+                    s.Delete();
+                    cnn.Open();
+                    OleDbCommand cmd = new OleDbCommand();
+                    cmd.Connection = cnn;
+                    cmd.CommandText = "DELETE FROM ClassCourses WHERE MSSV = ? AND MãMôn = ? AND Class = ?";
+                    cmd.Parameters.Add("@MSSV", OleDbType.VarWChar).Value = MSSV;
+                    cmd.Parameters.Add("@MãMôn", OleDbType.VarWChar).Value = Courses;
+                    cmd.Parameters.Add("@Class", OleDbType.VarWChar).Value = Class;
+                    cmd.ExecuteNonQuery();
+                    cnn.Close();
+                    return true;
+                }
+            }
+            return false;
+        }
 
         public List<string> Get_Course_Class()
         {
@@ -285,10 +337,13 @@ namespace Student_Management.DAL
             {
                 StringBuilder s = new StringBuilder();
                 DataRow current = dsHS.Tables["ClassCourses"].Rows[i];
-                s.Insert(0, current[3].ToString() + "-" + current[2].ToString());
-                if (!result.Contains(s.ToString()))
+                if (current.RowState != DataRowState.Deleted)
                 {
-                    result.Add(s.ToString());
+                    s.Insert(0, current[3].ToString() + "-" + current[2].ToString());
+                    if (!result.Contains(s.ToString()))
+                    {
+                        result.Add(s.ToString());
+                    }
                 }
             }
             return result;
@@ -301,22 +356,25 @@ namespace Student_Management.DAL
             {
                 List<string> temp0 = new List<string>();
                 DataRow temp = dsHS.Tables["ClassCourses"].Rows[i];
-                if (temp[3].ToString() == Class && temp[2].ToString() == Course)
+                if (temp.RowState != DataRowState.Deleted)
                 {
-                    for (int j = 0; j < dsHS.Tables["Students"].Rows.Count; j++)
+                    if (temp[3].ToString() == Class && temp[2].ToString() == Course)
                     {
-                        DataRow temp1 = dsHS.Tables["Students"].Rows[j];
-                        if (temp1[1].ToString() == temp[1].ToString())
+                        for (int j = 0; j < dsHS.Tables["Students"].Rows.Count; j++)
                         {
-                            temp0.Add(temp1[1].ToString());
-                            temp0.Add(temp1[2].ToString());
-                            temp0.Add(temp1[3].ToString());
-                            temp0.Add(temp1[4].ToString());
-                            student.Add(temp0);
-                            break;
+                            DataRow temp1 = dsHS.Tables["Students"].Rows[j];
+                            if (temp1[1].ToString() == temp[1].ToString())
+                            {
+                                temp0.Add(temp1[1].ToString());
+                                temp0.Add(temp1[2].ToString());
+                                temp0.Add(temp1[3].ToString());
+                                temp0.Add(temp1[4].ToString());
+                                student.Add(temp0);
+                                break;
+                            }
                         }
-                    }
 
+                    }
                 }
             }
             return student;
@@ -324,7 +382,7 @@ namespace Student_Management.DAL
 
         //-------------------------------------------------------------------------------------------------------------------------
 
-        public List<string>Get_Score_Class()
+        public List<string> Get_Score_Class()
         {
             List<string> result = new List<string>();
 
@@ -382,7 +440,7 @@ namespace Student_Management.DAL
                     temp0.Add(temp[5].ToString());
                     temp0.Add(temp[6].ToString());
                     temp0.Add(temp[7].ToString());
-                    for (int j = 0; j < dsHS.Tables["Courses"].Rows.Count;j++)
+                    for (int j = 0; j < dsHS.Tables["Courses"].Rows.Count; j++)
                     {
                         DataRow course = dsHS.Tables["Courses"].Rows[i];
                         if (temp[7].ToString() == course[1].ToString())

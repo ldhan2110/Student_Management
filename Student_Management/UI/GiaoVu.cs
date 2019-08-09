@@ -174,14 +174,16 @@ namespace Student_Management.UI
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            
+        {       
             if (radioButton1.Checked == true)
             {
                 cbClass.Items.Clear();
                 List<string> temp = user.Get_Class();
                 foreach (string s in temp)
                     cbClass.Items.Add(s);
+                contextMenuStrip1.Items[0].Enabled = true;
+                contextMenuStrip1.Items[1].Enabled = false;
+                contextMenuStrip1.Items[2].Enabled = false;
             }
         }
 
@@ -194,6 +196,9 @@ namespace Student_Management.UI
                 {
                     cbClass.Items.Add(s);
                 }
+                contextMenuStrip1.Items[0].Enabled = false;
+                contextMenuStrip1.Items[1].Enabled = false;
+                contextMenuStrip1.Items[2].Enabled = false;
             }
         }
 
@@ -206,6 +211,9 @@ namespace Student_Management.UI
                 {
                     cbClass.Items.Add(s);
                 }
+                contextMenuStrip1.Items[0].Enabled = true;
+                contextMenuStrip1.Items[1].Enabled = false;
+                contextMenuStrip1.Items[2].Enabled = true;
             }
         }
 
@@ -218,6 +226,21 @@ namespace Student_Management.UI
                 {
                     cbClass.Items.Add(s);
                 }
+            }
+            contextMenuStrip1.Items[0].Enabled = false;
+            contextMenuStrip1.Items[1].Enabled = true;
+            contextMenuStrip1.Items[2].Enabled = false;
+        }
+
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listView.SelectedItems.Count == 1)
+            {
+                string[] temp = cbClass.SelectedItem.ToString().Split('-');
+                if (user.Remove_student_from_ClassCourses(listView.SelectedItems[0].SubItems[1].Text.ToString(), temp[1], temp[0]))
+                    MessageBox.Show("Remove Successfully !","Success",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                else
+                    MessageBox.Show("Remove Failed !", "ERRORS", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

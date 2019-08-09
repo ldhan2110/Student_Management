@@ -96,6 +96,11 @@ namespace Student_Management.BL
             string[] temp = Class.Split('-');
             return data.Get_Student_of_a_Course_class(temp[0], temp[1]);
         }
+
+        public bool Remove_student_from_ClassCourses(string MSSV, string Courses,string Class)
+        {
+            return data.Remove_a_student_from_ClassCourses(MSSV, Class, Courses);
+        }
         //----------------------------------------------------------------------------------------------------------------------------
 
         public List<string> Get_Score_Class()
