@@ -44,16 +44,17 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cbClass = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.tbfile = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.radiobutton4 = new System.Windows.Forms.RadioButton();
-            this.radioButton3 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.ClassCoursesRB = new System.Windows.Forms.RadioButton();
+            this.ScoreRB = new System.Windows.Forms.RadioButton();
+            this.ScheduleRB = new System.Windows.Forms.RadioButton();
+            this.ClassRB = new System.Windows.Forms.RadioButton();
             this.cbtable = new System.Windows.Forms.ComboBox();
-            this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.analyzeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -66,7 +67,7 @@
             this.helpToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(963, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(458, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -105,6 +106,7 @@
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // listView
             // 
@@ -155,9 +157,10 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addToolStripMenuItem,
             this.editToolStripMenuItem,
-            this.removeToolStripMenuItem});
+            this.removeToolStripMenuItem,
+            this.analyzeToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(118, 92);
             // 
             // addToolStripMenuItem
             // 
@@ -172,6 +175,14 @@
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.editToolStripMenuItem.Text = "Edit";
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
+            // 
+            // removeToolStripMenuItem
+            // 
+            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.removeToolStripMenuItem.Text = "Remove";
+            this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
             // cbClass
             // 
@@ -203,61 +214,61 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.radiobutton4);
-            this.panel1.Controls.Add(this.radioButton3);
-            this.panel1.Controls.Add(this.radioButton2);
-            this.panel1.Controls.Add(this.radioButton1);
+            this.panel1.Controls.Add(this.ClassCoursesRB);
+            this.panel1.Controls.Add(this.ScoreRB);
+            this.panel1.Controls.Add(this.ScheduleRB);
+            this.panel1.Controls.Add(this.ClassRB);
             this.panel1.Location = new System.Drawing.Point(144, 27);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(303, 26);
             this.panel1.TabIndex = 5;
             // 
-            // radiobutton4
+            // ClassCoursesRB
             // 
-            this.radiobutton4.AutoSize = true;
-            this.radiobutton4.Location = new System.Drawing.Point(136, 6);
-            this.radiobutton4.Name = "radiobutton4";
-            this.radiobutton4.Size = new System.Drawing.Size(86, 17);
-            this.radiobutton4.TabIndex = 3;
-            this.radiobutton4.TabStop = true;
-            this.radiobutton4.Text = "Class Course";
-            this.radiobutton4.UseVisualStyleBackColor = true;
-            this.radiobutton4.CheckedChanged += new System.EventHandler(this.radiobutton4_CheckedChanged);
+            this.ClassCoursesRB.AutoSize = true;
+            this.ClassCoursesRB.Location = new System.Drawing.Point(136, 6);
+            this.ClassCoursesRB.Name = "ClassCoursesRB";
+            this.ClassCoursesRB.Size = new System.Drawing.Size(86, 17);
+            this.ClassCoursesRB.TabIndex = 3;
+            this.ClassCoursesRB.TabStop = true;
+            this.ClassCoursesRB.Text = "Class Course";
+            this.ClassCoursesRB.UseVisualStyleBackColor = true;
+            this.ClassCoursesRB.CheckedChanged += new System.EventHandler(this.radiobutton4_CheckedChanged);
             // 
-            // radioButton3
+            // ScoreRB
             // 
-            this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(228, 5);
-            this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(53, 17);
-            this.radioButton3.TabIndex = 2;
-            this.radioButton3.Text = "Score";
-            this.radioButton3.UseVisualStyleBackColor = true;
-            this.radioButton3.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
+            this.ScoreRB.AutoSize = true;
+            this.ScoreRB.Location = new System.Drawing.Point(228, 5);
+            this.ScoreRB.Name = "ScoreRB";
+            this.ScoreRB.Size = new System.Drawing.Size(53, 17);
+            this.ScoreRB.TabIndex = 2;
+            this.ScoreRB.Text = "Score";
+            this.ScoreRB.UseVisualStyleBackColor = true;
+            this.ScoreRB.CheckedChanged += new System.EventHandler(this.radioButton3_CheckedChanged);
             // 
-            // radioButton2
+            // ScheduleRB
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(60, 6);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(70, 17);
-            this.radioButton2.TabIndex = 1;
-            this.radioButton2.Text = "Schedule";
-            this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            this.ScheduleRB.AutoSize = true;
+            this.ScheduleRB.Location = new System.Drawing.Point(60, 6);
+            this.ScheduleRB.Name = "ScheduleRB";
+            this.ScheduleRB.Size = new System.Drawing.Size(70, 17);
+            this.ScheduleRB.TabIndex = 1;
+            this.ScheduleRB.Text = "Schedule";
+            this.ScheduleRB.UseVisualStyleBackColor = true;
+            this.ScheduleRB.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
             // 
-            // radioButton1
+            // ClassRB
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(4, 6);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(50, 17);
-            this.radioButton1.TabIndex = 0;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Class";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.ClassRB.AutoSize = true;
+            this.ClassRB.Checked = true;
+            this.ClassRB.Location = new System.Drawing.Point(4, 6);
+            this.ClassRB.Name = "ClassRB";
+            this.ClassRB.Size = new System.Drawing.Size(50, 17);
+            this.ClassRB.TabIndex = 0;
+            this.ClassRB.TabStop = true;
+            this.ClassRB.Text = "Class";
+            this.ClassRB.UseVisualStyleBackColor = true;
+            this.ClassRB.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
             // cbtable
             // 
@@ -271,18 +282,19 @@
             this.cbtable.Size = new System.Drawing.Size(77, 21);
             this.cbtable.TabIndex = 6;
             // 
-            // removeToolStripMenuItem
+            // analyzeToolStripMenuItem
             // 
-            this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.removeToolStripMenuItem.Text = "Remove";
-            this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
+            this.analyzeToolStripMenuItem.Enabled = false;
+            this.analyzeToolStripMenuItem.Name = "analyzeToolStripMenuItem";
+            this.analyzeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.analyzeToolStripMenuItem.Text = "Analyze";
+            this.analyzeToolStripMenuItem.Click += new System.EventHandler(this.analyzeToolStripMenuItem_Click);
             // 
             // GiaoVu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(963, 331);
+            this.ClientSize = new System.Drawing.Size(458, 331);
             this.Controls.Add(this.cbtable);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tbfile);
@@ -324,11 +336,12 @@
         private System.Windows.Forms.ToolStripMenuItem addToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.RadioButton radioButton3;
-        private System.Windows.Forms.RadioButton radioButton2;
-        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.RadioButton ScoreRB;
+        private System.Windows.Forms.RadioButton ScheduleRB;
+        private System.Windows.Forms.RadioButton ClassRB;
         private System.Windows.Forms.ComboBox cbtable;
-        private System.Windows.Forms.RadioButton radiobutton4;
+        private System.Windows.Forms.RadioButton ClassCoursesRB;
         private System.Windows.Forms.ToolStripMenuItem removeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem analyzeToolStripMenuItem;
     }
 }

@@ -64,7 +64,6 @@ namespace Student_Management.DAL
             return true;
         }
 
-
         public void Update_dsHS(string table)
         {
             cnn.Open();
@@ -222,7 +221,9 @@ namespace Student_Management.DAL
             return student;
         }
 
+
         //------------------------------------------------------------------------------------------------------------------------
+
 
         public List<List<string>> Get_Courses_of_a_class(string Class)
         {
@@ -259,7 +260,9 @@ namespace Student_Management.DAL
             return result;
         }
 
+
         //------------------------------------------------------------------------------------------------------------------------
+
         private void Update_ClassCourses()
         {
             cnn.Open();
@@ -329,6 +332,41 @@ namespace Student_Management.DAL
             return false;
         }
 
+        public bool Add_student_to_ClassCourses (string MSSV, string Class, string Courses)
+        {
+            bool t = false;               
+            foreach (DataRow s in dsHS.Tables["ClassCourses"].Rows)
+            {
+                if (s.RowState == DataRowState.Deleted) continue;
+                if (s[1].ToString() == MSSV && s[2].ToString() == Courses && s[3].ToString() == Class) return false;
+            }
+
+            foreach (DataRow s in dsHS.Tables["Students"].Rows)
+            {
+                if (s[1].ToString() == MSSV) { t = true; break; }
+            }
+            if (t == true)
+            {
+                DataRow student = dsHS.Tables["ClassCourses"].NewRow();
+                student[1] = MSSV;
+                student[2] = Courses;
+                student[3] = Class;
+                dsHS.Tables["ClassCourses"].Rows.Add(student);
+
+                cnn.Open();
+                OleDbCommand cmd = new OleDbCommand();
+                cmd.Connection = cnn;
+                cmd.CommandText = "INSERT INTO ClassCourses VALUES (?,?,?)";
+                cmd.Parameters.Add("@MSSV", OleDbType.VarWChar).Value = MSSV;
+                cmd.Parameters.Add("@MãMôn", OleDbType.VarWChar).Value = Courses;
+                cmd.Parameters.Add("@Class", OleDbType.VarWChar).Value = Class;
+                cmd.ExecuteNonQuery();
+                cnn.Close();
+                return true;
+            }
+            return t;
+        }
+
         public List<string> Get_Course_Class()
         {
             List<string> result = new List<string>();
@@ -380,7 +418,9 @@ namespace Student_Management.DAL
             return student;
         }
 
+
         //-------------------------------------------------------------------------------------------------------------------------
+
 
         public List<string> Get_Score_Class()
         {
@@ -424,6 +464,35 @@ namespace Student_Management.DAL
             return score;
         }
 
+        public bool Update_Score(string MSSV,int score, string column, string Class, string Courses)
+        {
+            DataRow student = null;
+            foreach (DataRow s in dsHS.Tables["Scores"].Rows)
+            {
+                if (s[1].ToString() == MSSV && s[7].ToString() == Courses && s[8].ToString() == Class)
+                {
+                    student = s;
+                    break;
+                }
+            }
+            if (student == null) return false;
+
+            student.BeginEdit();
+            student[column] = score;
+            student.EndEdit();
+
+            cnn.Open();
+            OleDbCommand cmd = new OleDbCommand();
+            cmd.Connection = cnn;
+            cmd.CommandText = "UPDATE Scores SET "+column+" = "+ score+ " WHERE MSSV = ? AND MãMôn = ? AND Class = ?";
+            cmd.Parameters.Add("@MSSV", OleDbType.VarWChar).Value = MSSV;
+            cmd.Parameters.Add("@MãMôn", OleDbType.VarWChar).Value = Courses;
+            cmd.Parameters.Add("@Class", OleDbType.VarWChar).Value = Class;
+            cmd.ExecuteNonQuery();
+            cnn.Close();
+            return true;
+        }
+
         //------------------------------------------------------------------------------------------------------------------------------
 
         public List<List<string>> Get_Score_of_a_student(string MSSV)
@@ -442,7 +511,7 @@ namespace Student_Management.DAL
                     temp0.Add(temp[7].ToString());
                     for (int j = 0; j < dsHS.Tables["Courses"].Rows.Count; j++)
                     {
-                        DataRow course = dsHS.Tables["Courses"].Rows[i];
+                        DataRow course = dsHS.Tables["Courses"].Rows[j];
                         if (temp[7].ToString() == course[1].ToString())
                         {
                             temp0.Add(course[2].ToString());

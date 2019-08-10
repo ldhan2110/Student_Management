@@ -53,6 +53,7 @@ namespace Student_Management.BL
         }
 
         //---------------------------------------------------------------------------------------------------------------------------
+
         public bool Impor_CSV_DB(string filename, string table)
         {
             if (data.Import_CSV_into_System(filename, table)) return true;
@@ -74,7 +75,9 @@ namespace Student_Management.BL
             return data.Get_Student_of_a_class(Class);
         }
 
+
         //---------------------------------------------------------------------------------------------------------------------------
+
         public List<string> Get_Class_course()
         {
             return data.Get_Class_course();
@@ -85,7 +88,9 @@ namespace Student_Management.BL
             return data.Get_Courses_of_a_class(Class);
         }
 
+
         //---------------------------------------------------------------------------------------------------------------------------
+
         public List<string> Get_Course_Class()
         {
             return data.Get_Course_Class();
@@ -101,6 +106,13 @@ namespace Student_Management.BL
         {
             return data.Remove_a_student_from_ClassCourses(MSSV, Class, Courses);
         }
+
+        public bool Add_student_to_ClassCourses(string MSSV, string Class)
+        {
+            string[] temp = Class.Split('-');
+            return data.Add_student_to_ClassCourses(MSSV, temp[0], temp[1]);
+        }
+
         //----------------------------------------------------------------------------------------------------------------------------
 
         public List<string> Get_Score_Class()
@@ -112,6 +124,15 @@ namespace Student_Management.BL
         {
             string[] temp = Class.Split('-');
             return data.Get_Student_of_a_Score_class(temp[0], temp[1]);
+        }
+
+        public bool Update_Scores(string score,string column,string MSSV, string Class)
+        {
+            string[] temp = Class.Split('-');
+            int s;
+            bool value = int.TryParse(score, out s);
+            if (value == false) return false;
+            return data.Update_Score(MSSV, s, column, temp[0], temp[1]);
         }
 
         //-------------------------------------------------------------------------------------------------------------------------------------------

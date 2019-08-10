@@ -27,7 +27,7 @@ namespace Student_Management.UI
                 ListViewItem item = new ListViewItem();
                 item.Text = i.ToString();
                 item.SubItems.Add(s[4]);
-                if (s.Count > 6)
+                if (s.Count >= 6)
                     item.SubItems.Add(s[5]);
                 else
                     item.SubItems.Add("null");

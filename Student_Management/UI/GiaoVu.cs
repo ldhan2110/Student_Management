@@ -14,6 +14,8 @@ namespace Student_Management.UI
     public partial class GiaoVu : Form
     {
         private User user;
+        private float num_pass = 0;
+        private float num_fail = 0;
 
         public GiaoVu(User u)
         {
@@ -37,7 +39,7 @@ namespace Student_Management.UI
             listView.Columns.Add("STT", 38);
             listView.Items.Clear();
 
-            if (radioButton1.Checked == true)
+            if (ClassRB.Checked == true)
             {
                 listView.Columns.Add("MSSV", 60);
                 listView.Columns.Add("Họ tên", 159);
@@ -59,9 +61,10 @@ namespace Student_Management.UI
                     listView.Items.Add(item);
                     i++;
                 }
+
             }
 
-            if (radioButton2.Checked == true)
+            if (ScheduleRB.Checked == true)
             {
                 listView.Columns.Add("Mã môn", 60);
                 listView.Columns.Add("Tên môn", 159);
@@ -84,7 +87,7 @@ namespace Student_Management.UI
 
             }
 
-            if (radiobutton4.Checked == true)
+            if (ClassCoursesRB.Checked == true)
             {
                 listView.Columns.Add("MSSV", 60);
                 listView.Columns.Add("Họ tên", 159);
@@ -105,9 +108,11 @@ namespace Student_Management.UI
                     listView.Items.Add(item);
                     i++;
                 }
+
+
             }
 
-            if (radioButton3.Checked == true)
+            if (ScoreRB.Checked == true)
             {
                 listView.Columns.Add("MSSV", 60);
                 listView.Columns.Add("Họ tên", 159);
@@ -115,7 +120,8 @@ namespace Student_Management.UI
                 listView.Columns.Add("Điểm CK", 55);
                 listView.Columns.Add("Điểm Khác", 75);
                 listView.Columns.Add("Điểm Tổng", 75);
-
+                listView.Columns.Add("Đậu/Rớt", 75);
+                float pass = 0; float fail = 0;
                 List<List<string>> list_student = user.Get_Student_of_a_Score_class(cbClass.SelectedItem.ToString());
 
                 int i = 1;
@@ -129,9 +135,13 @@ namespace Student_Management.UI
                     item.SubItems.Add(s[4]);
                     item.SubItems.Add(s[5]);
                     item.SubItems.Add(s[6]);
+                    if (int.Parse(s[6]) >= 5) { pass++; item.SubItems.Add("Đậu"); }
+                    else { fail++; item.SubItems.Add("Rớt"); }
                     listView.Items.Add(item);
                     i++;
                 }
+                num_fail = fail;
+                num_pass = pass;
 
             }
 
@@ -145,7 +155,7 @@ namespace Student_Management.UI
 
             }
             if (user.Impor_CSV_DB(tbfile.Text, cbtable.SelectedItem.ToString()))
-                MessageBox.Show("Import Successfully !!","Success",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                MessageBox.Show("Import Successfully !!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
                 MessageBox.Show("Import failed !!", "ERRORS", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
@@ -163,20 +173,29 @@ namespace Student_Management.UI
 
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (radioButton1.Checked == true)
+            if (ClassRB.Checked == true)
             {
                 Add_Student add_form = new Add_Student(user);
                 add_form.ShowDialog();
+                cbClass.Items.Clear();
+                foreach (string s in user.Get_Class())
+                    cbClass.Items.Add(s);
             }
-            cbClass.Items.Clear();
-            foreach (string s in user.Get_Class())
-                cbClass.Items.Add(s);
+
+            if (ClassCoursesRB.Checked == true)
+            {
+                if (cbClass.SelectedItem is null) return;
+                AddClassCourses form = new AddClassCourses(user, cbClass.SelectedItem.ToString());
+                form.ShowDialog();
+            }
+
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {       
-            if (radioButton1.Checked == true)
+        {
+            if (ClassRB.Checked == true)
             {
+                listView.Clear();
                 cbClass.Items.Clear();
                 List<string> temp = user.Get_Class();
                 foreach (string s in temp)
@@ -184,13 +203,15 @@ namespace Student_Management.UI
                 contextMenuStrip1.Items[0].Enabled = true;
                 contextMenuStrip1.Items[1].Enabled = false;
                 contextMenuStrip1.Items[2].Enabled = false;
+                contextMenuStrip1.Items[3].Enabled = false;
             }
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton2.Checked == true)
+            if (ScheduleRB.Checked == true)
             {
+                listView.Clear();
                 cbClass.Items.Clear();
                 foreach (string s in user.Get_Class_course())
                 {
@@ -199,13 +220,15 @@ namespace Student_Management.UI
                 contextMenuStrip1.Items[0].Enabled = false;
                 contextMenuStrip1.Items[1].Enabled = false;
                 contextMenuStrip1.Items[2].Enabled = false;
+                contextMenuStrip1.Items[3].Enabled = false;
             }
         }
 
         private void radiobutton4_CheckedChanged(object sender, EventArgs e)
         {
-            if (radiobutton4.Checked == true)
+            if (ClassCoursesRB.Checked == true)
             {
+                listView.Clear();
                 cbClass.Items.Clear();
                 foreach (string s in user.Get_Course_Class())
                 {
@@ -214,13 +237,15 @@ namespace Student_Management.UI
                 contextMenuStrip1.Items[0].Enabled = true;
                 contextMenuStrip1.Items[1].Enabled = false;
                 contextMenuStrip1.Items[2].Enabled = true;
+                contextMenuStrip1.Items[3].Enabled = false;
             }
         }
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton3.Checked == true)
+            if (ScoreRB.Checked == true)
             {
+                listView.Clear();
                 cbClass.Items.Clear();
                 foreach (string s in user.Get_Score_Class())
                 {
@@ -230,6 +255,7 @@ namespace Student_Management.UI
             contextMenuStrip1.Items[0].Enabled = false;
             contextMenuStrip1.Items[1].Enabled = true;
             contextMenuStrip1.Items[2].Enabled = false;
+            contextMenuStrip1.Items[3].Enabled = true;
         }
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -238,10 +264,32 @@ namespace Student_Management.UI
             {
                 string[] temp = cbClass.SelectedItem.ToString().Split('-');
                 if (user.Remove_student_from_ClassCourses(listView.SelectedItems[0].SubItems[1].Text.ToString(), temp[1], temp[0]))
-                    MessageBox.Show("Remove Successfully !","Success",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    MessageBox.Show("Remove Successfully !", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 else
                     MessageBox.Show("Remove Failed !", "ERRORS", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (listView.SelectedItems.Count == 1)
+            {
+                ListViewItem student = listView.SelectedItems[0];
+                Update_Score form = new Update_Score(user, student.SubItems[3].Text, student.SubItems[4].Text, student.SubItems[5].Text, student.SubItems[6].Text, student.SubItems[1].Text, cbClass.SelectedItem.ToString());
+                form.ShowDialog();
+            }
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Student_Management.exe\nVersion: 0.0.1\nDeveloper: Le Dang Hoang An", "About", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+        }
+
+        private void analyzeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (num_pass == 0 && num_fail == 0) return;
+            Analyze form = new Analyze(num_pass, num_fail,cbClass.SelectedItem.ToString());
+            form.ShowDialog();
         }
     }
 }
