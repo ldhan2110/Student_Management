@@ -45,6 +45,7 @@
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.analyzeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cbClass = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.tbfile = new System.Windows.Forms.TextBox();
@@ -54,7 +55,6 @@
             this.ScheduleRB = new System.Windows.Forms.RadioButton();
             this.ClassRB = new System.Windows.Forms.RadioButton();
             this.cbtable = new System.Windows.Forms.ComboBox();
-            this.analyzeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.contextMenuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -160,7 +160,7 @@
             this.removeToolStripMenuItem,
             this.analyzeToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(118, 92);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 114);
             // 
             // addToolStripMenuItem
             // 
@@ -179,10 +179,19 @@
             // 
             // removeToolStripMenuItem
             // 
+            this.removeToolStripMenuItem.Enabled = false;
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
             this.removeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
+            // 
+            // analyzeToolStripMenuItem
+            // 
+            this.analyzeToolStripMenuItem.Enabled = false;
+            this.analyzeToolStripMenuItem.Name = "analyzeToolStripMenuItem";
+            this.analyzeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.analyzeToolStripMenuItem.Text = "Analyze";
+            this.analyzeToolStripMenuItem.Click += new System.EventHandler(this.analyzeToolStripMenuItem_Click);
             // 
             // cbClass
             // 
@@ -281,14 +290,6 @@
             this.cbtable.Name = "cbtable";
             this.cbtable.Size = new System.Drawing.Size(77, 21);
             this.cbtable.TabIndex = 6;
-            // 
-            // analyzeToolStripMenuItem
-            // 
-            this.analyzeToolStripMenuItem.Enabled = false;
-            this.analyzeToolStripMenuItem.Name = "analyzeToolStripMenuItem";
-            this.analyzeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
-            this.analyzeToolStripMenuItem.Text = "Analyze";
-            this.analyzeToolStripMenuItem.Click += new System.EventHandler(this.analyzeToolStripMenuItem_Click);
             // 
             // GiaoVu
             // 

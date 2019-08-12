@@ -36,35 +36,42 @@ namespace Student_Management.UI
         {
             if (GKs != GKtb.Text)
             {
-                if (user.Update_Scores(GKtb.Text, "ĐiểmGK", MSSVs, Class))
-                    MessageBox.Show("Update Successfully !!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else
+                if (!user.Update_Scores(GKtb.Text, "ĐiểmGK", MSSVs, Class))
+
+                {
                     MessageBox.Show("Update Failed !!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
 
             if (CKs != CKtb.Text)
             {
-                if (user.Update_Scores(CKtb.Text, "ĐiểmCK", MSSVs, Class))
-                    MessageBox.Show("Update Successfully !!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else
+                if (!user.Update_Scores(CKtb.Text, "ĐiểmCK", MSSVs, Class))
+
+                {
                     MessageBox.Show("Update Failed !!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
 
-            if (Khacs !=Khactb.Text)
+            if (Khacs != Khactb.Text)
             {
-                if (user.Update_Scores(Khactb.Text, "ĐiểmKhác", MSSVs, Class))
-                    MessageBox.Show("Update Successfully !!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else
+                if (!user.Update_Scores(Khactb.Text, "ĐiểmKhác", MSSVs, Class))
+                {
                     MessageBox.Show("Update Failed !!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
 
-            if (Tongs != GKtb.Text)
+            if (Tongs != Tongtb.Text)
             {
-                if (user.Update_Scores(Tongtb.Text, "ĐiểmTổng", MSSVs, Class))
-                    MessageBox.Show("Update Successfully !!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else
+                if (!user.Update_Scores(Tongtb.Text, "ĐiểmTổng", MSSVs, Class))
+                {
                     MessageBox.Show("Update Failed !!", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
             }
+            MessageBox.Show("Update Successfully !!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
     }
 }

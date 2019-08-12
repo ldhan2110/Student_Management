@@ -129,8 +129,7 @@ namespace Student_Management.BL
         public bool Update_Scores(string score,string column,string MSSV, string Class)
         {
             string[] temp = Class.Split('-');
-            int s;
-            bool value = int.TryParse(score, out s);
+            bool value = float.TryParse(score, out float s);
             if (value == false) return false;
             return data.Update_Score(MSSV, s, column, temp[0], temp[1]);
         }

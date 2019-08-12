@@ -314,7 +314,8 @@ namespace Student_Management.DAL
         {
             foreach (DataRow s in dsHS.Tables["ClassCourses"].Rows)
             {
-                if (s[1].ToString() == MSSV && s[2].ToString() == Courses && s[3].ToString() == Class)
+                if (s.RowState == DataRowState.Deleted) continue;
+                if (s[1].ToString() == MSSV && s[2].ToString() == Courses && s[3].ToString() == Class && s.RowState != DataRowState.Deleted)
                 {
                     s.Delete();
                     cnn.Open();
@@ -464,7 +465,7 @@ namespace Student_Management.DAL
             return score;
         }
 
-        public bool Update_Score(string MSSV,int score, string column, string Class, string Courses)
+        public bool Update_Score(string MSSV,float score, string column, string Class, string Courses)
         {
             DataRow student = null;
             foreach (DataRow s in dsHS.Tables["Scores"].Rows)

@@ -46,9 +46,9 @@ CREATE TABLE Scores
 	STT INT IDENTITY(1,1),
 	MSSV NVARCHAR(8),
 	HọTên NVARCHAR(50) NOT NULL,
-	ĐiểmGK INT NOT NULL DEFAULT 0 CHECK (ĐiểmGK >= 0 AND ĐiểmGK <=10),
-	ĐiểmCK INT NOT NULL DEFAULT 0 CHECK (ĐiểmCK >= 0 AND ĐiểmCK <=10),
-	ĐiểmKhác INT NOT NULL DEFAULT 0 CHECK (ĐiểmKhác >= 0 AND ĐiểmKhác <=10),
+	ĐiểmGK FLOAT NOT NULL DEFAULT 0 CHECK (ĐiểmGK >= 0 AND ĐiểmGK <=10),
+	ĐiểmCK FLOAT NOT NULL DEFAULT 0 CHECK (ĐiểmCK >= 0 AND ĐiểmCK <=10),
+	ĐiểmKhác FLOAT NOT NULL DEFAULT 0 CHECK (ĐiểmKhác >= 0 AND ĐiểmKhác <=10),
 	ĐiểmTổng FLOAT NOT NULL DEFAULT 0 CHECK (ĐiểmTổng >= 0 AND ĐiểmTổng <=10),
 	MãMôn NVARCHAR(8) NOT NULL,
 	Class NVARCHAR(8) NOT NULL,
@@ -68,10 +68,8 @@ ALTER TABLE dbo.Scores
 ADD CONSTRAINT FK_Course_Score FOREIGN KEY(MSSV,MãMôn,Class) REFERENCES dbo.ClassCourses(MSSV,MãMôn,Class)
 
 
-INSERT INTO Users VALUES('admin','123','A');
 INSERT INTO Users VALUES('giaovu','giaovu','G');
 INSERT INTO Users VALUES('1753027','21101999','S');
-
 
 
 

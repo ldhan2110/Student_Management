@@ -135,7 +135,7 @@ namespace Student_Management.UI
                     item.SubItems.Add(s[4]);
                     item.SubItems.Add(s[5]);
                     item.SubItems.Add(s[6]);
-                    if (int.Parse(s[6]) >= 5) { pass++; item.SubItems.Add("Đậu"); }
+                    if (float.Parse(s[6]) >= 5) { pass++; item.SubItems.Add("Đậu"); }
                     else { fail++; item.SubItems.Add("Rớt"); }
                     listView.Items.Add(item);
                     i++;
